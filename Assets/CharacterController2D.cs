@@ -55,7 +55,7 @@ public class CharacterController2D : MonoBehaviour
         // Convert touch position to world coordinates
         mouseInWorldCoordinates = Camera.main.ScreenToWorldPoint(mousePosition);
         // Get desired rotation using world position
-        Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, mouseInWorldCoordinates);
+        Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, mouseInWorldCoordinates - player.transform.position);
         // Rotate turret towards desired rotation at set speed
         player.rotation = Quaternion.RotateTowards(player.rotation, desiredRotation, rotationSpeed * Time.fixedDeltaTime);
     }
