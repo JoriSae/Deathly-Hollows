@@ -10,6 +10,7 @@ public class CharacterController2D : MonoBehaviour
     [Header("Rotation Variables")]
     public Camera mainCamera;
     public Transform player;
+    public Transform head;
 
     private Vector3 mouseInWorldCoordinates;
 
@@ -57,7 +58,7 @@ public class CharacterController2D : MonoBehaviour
         // Get desired rotation using world position
         Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, mouseInWorldCoordinates - player.transform.position);
         // Rotate turret towards desired rotation at set speed
-        player.rotation = Quaternion.RotateTowards(player.rotation, desiredRotation, rotationSpeed * Time.fixedDeltaTime);
+        head.rotation = Quaternion.RotateTowards(head.rotation, desiredRotation, rotationSpeed * Time.fixedDeltaTime);
     }
 
     private void UpdateInput()
