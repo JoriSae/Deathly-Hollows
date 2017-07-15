@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour {
-
+public class Inventory : MonoBehaviour
+{
     List<Item> items = new List<Item>();
 
     RectOffset padding;
@@ -16,6 +16,10 @@ public class Inventory : MonoBehaviour {
     public Slot[,] slots;
 
     public Slot slot;
+
+    public Item item;
+
+    public GameObject itemContainer;
 
 	void Start ()
     {
@@ -49,9 +53,73 @@ public class Inventory : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
 	void Update ()
     {
 
 	}
+
+    public void AddItem()
+    {
+        Vector2 gridPosition = CheckGrid();
+
+        print(gridPosition.x + " " + gridPosition.y);
+
+        if (gridPosition.x != -1 &&
+            gridPosition.y != -1)
+        {
+            Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
+            itemPosition.x -= (cellSize.x / 2);
+            itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (item.size.x - 1));
+
+            Item newItem = Instantiate(item, itemPosition, Quaternion.identity) as Item;
+
+            newItem.transform.SetParent(itemContainer.transform);
+
+            for (int x = (int)gridPosition.x; x < (int)(gridPosition.x + item.size.x); ++x)
+            {
+                for (int y = (int)gridPosition.y; y < (int)(gridPosition.y + item.size.y); ++y)
+                {
+                    print(x + " " + y);
+                    slots[x, y].occupied = true;
+                }
+            }
+
+        }
+    }
+
+    Vector2 CheckGrid()
+    {
+        for (int width = 0; width < slotRowNumber; ++width)
+        {
+            for (int height = 0; height < slotColumnNumber; ++height)
+            {
+                if (!slots[width, height].occupied)
+                {
+                    if (item.size.x + width > slotRowNumber ||
+                        item.size.y + height > slotColumnNumber)
+                    {
+                        continue;
+                    }
+
+                    for (int x = width; x < width + item.size.x; ++x)
+                    {
+                        for (int y = height; y < height + item.size.y; ++y)
+                        {
+                            if (slots[x,y].occupied)
+                            {
+                                goto GridOccupied;
+                            }
+                        }
+                    }
+
+                    return new Vector2 (width, height);
+
+                GridOccupied:
+                    continue;
+                }
+            }
+        }
+
+        return new Vector2(-1, -1);
+    }
 }

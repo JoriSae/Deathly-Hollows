@@ -13,12 +13,8 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     string stringID;
     int itemID;
 
-    public int width;
-    public int height;
-
-    public int xInventoryPosition;
-    public int yInventoryPosition;
-
+    public Vector2 size;
+    public Vector2 gridPosition;
 
     void Update()
     {
