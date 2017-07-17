@@ -10,13 +10,17 @@ public class Unit : MonoBehaviour
     Vector2[] path;
     int targetIndex;
 
-    private void Start()
-    {
+    float timer = 0.5f;
 
-    }
     private void Update()
     {
-        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        timer -= Time.deltaTime;
+
+        if (timer <= 0)
+        {
+            timer = 1f;
+            PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        }
     }
 
 
@@ -33,22 +37,25 @@ public class Unit : MonoBehaviour
 
     IEnumerator FollowPath()
     {
-        Vector2 currentWayPoint = path[0];
-
-        while (true)
+        if (path.Length > 0)
         {
-            if ((Vector2)transform.position == currentWayPoint)
-            {
-                targetIndex++;
-                if (targetIndex >= path.Length)
-                {
-                    yield break;
-                }
+            Vector2 currentWayPoint = path[0];
 
-                currentWayPoint = path[targetIndex];
+            while (true)
+            {
+                if ((Vector2)transform.position == currentWayPoint)
+                {
+                    targetIndex++;
+                    if (targetIndex >= path.Length)
+                    {
+                        yield break;
+                    }
+
+                    currentWayPoint = path[targetIndex];
+                }
+                transform.position = Vector2.MoveTowards(transform.position, currentWayPoint, speed * Time.deltaTime);
+                yield return null;
             }
-            transform.position = Vector2.MoveTowards(transform.position, currentWayPoint, speed * Time.deltaTime);
-            yield return null;
         }
     }
 

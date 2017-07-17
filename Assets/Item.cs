@@ -51,7 +51,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void CheckCollisions()
     {
-        Physics2D.BoxCast(transform.position, size, )
+        //Physics2D.BoxCast(transform.position, size, )
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -13,6 +13,8 @@ public class Grid : MonoBehaviour
     LayerMask walkableMask;
     Dictionary<int, int> walkwableRegionsDictionary = new Dictionary<int, int>();
 
+    float Timer = 5f;
+
     Node[,] grid;
 
     float nodeDiameter;
@@ -31,6 +33,16 @@ public class Grid : MonoBehaviour
         }
 
         CreateGrid();
+    }
+
+    private void Update()
+    {
+        Timer -= Time.deltaTime;
+
+        if (Timer <= 0)
+        {
+            CreateGrid();
+        }
     }
 
     public int MaxSize
