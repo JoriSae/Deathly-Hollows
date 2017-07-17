@@ -10,8 +10,11 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     Vector3 offset;
 
-    string stringID;
-    int itemID;
+    public string stringID;
+    public int itemID;
+
+    public bool stackable;
+    public int maxStack;
 
     public Vector2 size;
     public Vector2 gridPosition;
@@ -44,6 +47,11 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 Cursor.visible = true;
                 break;
         }
+    }
+
+    private void CheckCollisions()
+    {
+        Physics2D.BoxCast(transform.position, size, )
     }
 
     private void OnTriggerStay2D(Collider2D collision)

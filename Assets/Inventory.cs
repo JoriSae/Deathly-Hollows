@@ -36,16 +36,16 @@ public class Inventory : MonoBehaviour
         spacing = gridLayoutGroup.spacing;
 
         gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-        gridLayoutGroup.constraintCount = slotColumnNumber;
+        gridLayoutGroup.constraintCount = slotRowNumber;
     }
 
     void SpawnInventorySlots()
     {
         slots = new Slot[slotRowNumber, slotColumnNumber];
 
-        for (int width = 0; width < slotRowNumber; ++width)
+        for (int height = 0; height < slotColumnNumber; ++height)
         {
-            for (int height = 0; height < slotColumnNumber; ++height)
+            for (int width = 0; width < slotRowNumber; ++width)
             {
                 slots[width, height] = Instantiate(slot) as Slot;
                 slots[width, height].transform.SetParent(gameObject.transform);
@@ -58,68 +58,105 @@ public class Inventory : MonoBehaviour
 
 	}
 
-    public void AddItem()
+    public void AddItem(Item _item)
     {
-        Vector2 gridPosition = CheckGrid();
-
-        print(gridPosition.x + " " + gridPosition.y);
+        Vector2 gridPosition = CheckGrid(_item);
 
         if (gridPosition.x != -1 &&
             gridPosition.y != -1)
         {
-            Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
-            itemPosition.x -= (cellSize.x / 2);
-            itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (item.size.x - 1));
 
-            Item newItem = Instantiate(item, itemPosition, Quaternion.identity) as Item;
+            //print(gridPosition);
+            Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
+
+            itemPosition.x -= (cellSize.x / 2);
+            itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (_item.size.y - 1));
+
+            Item newItem = Instantiate(_item, itemPosition, Quaternion.identity) as Item;
 
             newItem.transform.SetParent(itemContainer.transform);
 
-            for (int x = (int)gridPosition.x; x < (int)(gridPosition.x + item.size.x); ++x)
+            for (int y = (int)gridPosition.y; y < (int)(gridPosition.y + _item.size.y); ++y)
             {
-                for (int y = (int)gridPosition.y; y < (int)(gridPosition.y + item.size.y); ++y)
+                for (int x = (int)gridPosition.x; x < (int)(gridPosition.x + _item.size.x); ++x)
                 {
-                    print(x + " " + y);
+                    //print(x + " " + y);
                     slots[x, y].occupied = true;
+                    slots[x, y].item = _item;
                 }
             }
 
         }
     }
 
-    Vector2 CheckGrid()
+    Vector2 CheckGrid(Item _item)
     {
-        for (int width = 0; width < slotRowNumber; ++width)
+        // Loop through all slots
+        for (int height = 0; height < slotColumnNumber; ++height)
         {
-            for (int height = 0; height < slotColumnNumber; ++height)
+            for (int width = 0; width < slotRowNumber; ++width)
             {
+                // Check if slots are occupied
                 if (!slots[width, height].occupied)
                 {
-                    if (item.size.x + width > slotRowNumber ||
-                        item.size.y + height > slotColumnNumber)
+                    // Check if item size exceeds slot row or column amount
+                    if (_item.size.x + width > slotRowNumber ||
+                        _item.size.y + height > slotColumnNumber)
                     {
+                        // If true continue to next loop
                         continue;
                     }
 
-                    for (int x = width; x < width + item.size.x; ++x)
+                    // Loop over slots require to hold item
+                    for (int y = height; y < height + _item.size.y; ++y)
                     {
-                        for (int y = height; y < height + item.size.y; ++y)
+                        for (int x = width; x < width + _item.size.x; ++x)
                         {
-                            if (slots[x,y].occupied)
+                            print("width: " + width + " height: " + height + " x: " + x + " y: " + y + " item size: " + _item.size);
+
+                            // Check if item overlaps any other items
+                            if (slots[x, y].occupied)
                             {
                                 goto GridOccupied;
                             }
                         }
                     }
 
-                    return new Vector2 (width, height);
+                    //print("##############Found: " + width + " " + height);
+
+                    // Retrun current slot
+                    return new Vector2(width, height);
 
                 GridOccupied:
                     continue;
                 }
+                else
+                {
+                    // Check if item is null
+                    if (slots[width, height].item != null)
+                    {
+                        // Check if current slot is stackable and if not at maximum capacity
+                        if (slots[width, height].item.stackable &&
+                            slots[width, height].item.maxStack > slots[width, height].currentStack)
+                        {
+                            // If true return current slot
+                            return new Vector2(width, height);
+                        }
+
+                        // If slot is occupied and not stackable, check if the item exceeds the size of 1 and if the item exceeds the boundary
+                        if ((int)slots[width, height].item.size.y > 1 &&
+                            slots[width, height].item.size.y + width > slotRowNumber)
+                        {
+
+                        }
+                    }
+                }
+
+                //print("Not Found: " + width + " " + height);
             }
         }
 
+        // Return invalid slot if no available slots
         return new Vector2(-1, -1);
     }
 }
