@@ -18,13 +18,12 @@ public class Generator : MonoBehaviour {
         {
 
             int rndnum = Random.Range(0, SpawnedItems.Length);
-            Instantiate(SpawnedItems[rndnum],new Vector2(Random.Range(this.transform.position.x - (XMAX / 2), this.transform.position.x + (XMAX /2)),Random.Range(transform.position.y - (YMAX / 2), transform.position.y + (YMAX / 2))) , transform.rotation);
+            Instantiate(SpawnedItems[rndnum], new Vector2(Random.Range(this.transform.position.x - (XMAX / 2), this.transform.position.x + (XMAX / 2)), Random.Range(transform.position.y - (YMAX / 2), transform.position.y + (YMAX / 2))), transform.rotation);
 
         }
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+    }
 }

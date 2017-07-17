@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
 
     float timer = 0.5f;
 
-    private void Update()
+    private void FixedUpdate()
     {
         timer -= Time.deltaTime;
 
@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour
 
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful)
     {
+
         if (pathSuccessful)
         {
             path = newPath;

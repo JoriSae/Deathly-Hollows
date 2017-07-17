@@ -13,10 +13,11 @@ public class Grid : MonoBehaviour
     LayerMask walkableMask;
     Dictionary<int, int> walkwableRegionsDictionary = new Dictionary<int, int>();
 
-    float Timer = 5f;
-
     Node[,] grid;
 
+
+    bool gridCreated = false;
+    float timer = 1;
     float nodeDiameter;
     int gridSizeX, gridSizeY;
 
@@ -37,11 +38,11 @@ public class Grid : MonoBehaviour
 
     private void Update()
     {
-        Timer -= Time.deltaTime;
-
-        if (Timer <= 0)
+        timer -= Time.deltaTime;
+        if (timer <= 0 && !gridCreated)
         {
             CreateGrid();
+            gridCreated = true;
         }
     }
 
