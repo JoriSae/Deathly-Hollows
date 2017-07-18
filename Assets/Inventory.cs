@@ -9,10 +9,10 @@ public class Inventory : MonoBehaviour
 
     RectOffset padding;
     Vector2 spacing;
-    Vector2 cellSize;
+    public Vector2 cellSize;
 
-    public int slotColumnNumber;
     public int slotRowNumber;
+    public int slotColumnNumber;
     public Slot[,] slots;
 
     public Slot slot;
@@ -36,16 +36,16 @@ public class Inventory : MonoBehaviour
         spacing = gridLayoutGroup.spacing;
 
         gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-        gridLayoutGroup.constraintCount = slotRowNumber;
+        gridLayoutGroup.constraintCount = slotColumnNumber;
     }
 
     void SpawnInventorySlots()
     {
-        slots = new Slot[slotRowNumber, slotColumnNumber];
+        slots = new Slot[slotColumnNumber, slotRowNumber];
 
-        for (int height = 0; height < slotColumnNumber; ++height)
+        for (int height = 0; height < slotRowNumber; ++height)
         {
-            for (int width = 0; width < slotRowNumber; ++width)
+            for (int width = 0; width < slotColumnNumber; ++width)
             {
                 slots[width, height] = Instantiate(slot) as Slot;
                 slots[width, height].transform.SetParent(gameObject.transform);
@@ -92,16 +92,16 @@ public class Inventory : MonoBehaviour
     Vector2 CheckGrid(Item _item)
     {
         // Loop through all slots
-        for (int height = 0; height < slotColumnNumber; ++height)
+        for (int height = 0; height < slotRowNumber; ++height)
         {
-            for (int width = 0; width < slotRowNumber; ++width)
+            for (int width = 0; width < slotColumnNumber; ++width)
             {
                 // Check if slots are occupied
                 if (!slots[width, height].occupied)
                 {
                     // Check if item size exceeds slot row or column amount
-                    if (_item.size.x + width > slotRowNumber ||
-                        _item.size.y + height > slotColumnNumber)
+                    if (_item.size.x + width > slotColumnNumber ||
+                        _item.size.y + height > slotRowNumber)
                     {
                         // If true continue to next loop
                         continue;
@@ -145,7 +145,7 @@ public class Inventory : MonoBehaviour
 
                         // If slot is occupied and not stackable, check if the item exceeds the size of 1 and if the item exceeds the boundary
                         if ((int)slots[width, height].item.size.y > 1 &&
-                            slots[width, height].item.size.y + width > slotRowNumber)
+                            slots[width, height].item.size.y + width > slotColumnNumber)
                         {
 
                         }
