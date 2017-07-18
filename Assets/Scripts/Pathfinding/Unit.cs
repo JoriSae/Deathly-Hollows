@@ -11,15 +11,39 @@ public class Unit : MonoBehaviour
     int targetIndex;
 
     float timer = 0.5f;
+    public SphereCollider circle;
+    CapsuleCollider DONTTOUCHMEH;
 
+    private void Start()
+    {
+        circle = GetComponent<SphereCollider>();
+        DONTTOUCHMEH = GetComponent<CapsuleCollider>();
+    }
+
+    // States
+
+        //Seeking
+
+        //Chasing
+
+        //Attacking
     private void FixedUpdate()
     {
         timer -= Time.deltaTime;
-
-        if (timer <= 0)
+        //Search for the player
+        if (timer <= 0 && circle.bounds.Contains(target.position))
         {
-            timer = 1f;
-            PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+            if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position) == false)
+            {
+                //Chase the player
+                PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                timer = 0.5f;
+            }
+            if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position))
+            {
+                //Attacking
+                StopAllCoroutines();
+            }
         }
     }
 
@@ -29,9 +53,9 @@ public class Unit : MonoBehaviour
 
         if (pathSuccessful)
         {
+            StopCoroutine("FollowPath");
             path = newPath;
             targetIndex = 0;
-            StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
     }
