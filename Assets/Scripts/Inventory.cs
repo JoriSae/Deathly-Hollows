@@ -52,11 +52,6 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-	
-	void Update ()
-    {
-
-	}
 
     public void AddItem(Item _item)
     {
@@ -65,8 +60,6 @@ public class Inventory : MonoBehaviour
         if (gridPosition.x != -1 &&
             gridPosition.y != -1)
         {
-
-            //print(gridPosition);
             Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
 
             itemPosition.x -= (cellSize.x / 2);
@@ -76,16 +69,19 @@ public class Inventory : MonoBehaviour
 
             newItem.transform.SetParent(itemContainer.transform);
 
-            for (int y = (int)gridPosition.y; y < (int)(gridPosition.y + _item.size.y); ++y)
-            {
-                for (int x = (int)gridPosition.x; x < (int)(gridPosition.x + _item.size.x); ++x)
-                {
-                    //print(x + " " + y);
-                    slots[x, y].occupied = true;
-                    slots[x, y].item = _item;
-                }
-            }
+            SetOccupied((int)gridPosition.x, (int)gridPosition.y, _item, true);
+        }
+    }
 
+    public void SetOccupied(int _xSlot, int _ySlot, Item _item, bool _occupied)
+    {
+        for (int y = _ySlot; y < _ySlot + _item.size.y; ++y)
+        {
+            for (int x = _xSlot; x < _xSlot + _item.size.x; ++x)
+            {
+                slots[x, y].occupied = _occupied;
+                slots[x, y].item = _item;
+            }
         }
     }
 
@@ -96,67 +92,69 @@ public class Inventory : MonoBehaviour
         {
             for (int width = 0; width < slotColumnNumber; ++width)
             {
-                // Check if slots are occupied
-                if (!slots[width, height].occupied)
+                bool slotOccupied = SlotsOccupiedCheck(ref width, ref height, _item);
+
+                if (!slotOccupied)
                 {
-                    // Check if item size exceeds slot row or column amount
-                    if (_item.size.x + width > slotColumnNumber ||
-                        _item.size.y + height > slotRowNumber)
-                    {
-                        // If true continue to next loop
-                        continue;
-                    }
-
-                    // Loop over slots require to hold item
-                    for (int y = height; y < height + _item.size.y; ++y)
-                    {
-                        for (int x = width; x < width + _item.size.x; ++x)
-                        {
-                            print("width: " + width + " height: " + height + " x: " + x + " y: " + y + " item size: " + _item.size);
-
-                            // Check if item overlaps any other items
-                            if (slots[x, y].occupied)
-                            {
-                                goto GridOccupied;
-                            }
-                        }
-                    }
-
-                    //print("##############Found: " + width + " " + height);
-
-                    // Retrun current slot
                     return new Vector2(width, height);
-
-                GridOccupied:
-                    continue;
                 }
-                else
-                {
-                    // Check if item is null
-                    if (slots[width, height].item != null)
-                    {
-                        // Check if current slot is stackable and if not at maximum capacity
-                        if (slots[width, height].item.stackable &&
-                            slots[width, height].item.maxStack > slots[width, height].currentStack)
-                        {
-                            // If true return current slot
-                            return new Vector2(width, height);
-                        }
-
-                        // If slot is occupied and not stackable, check if the item exceeds the size of 1 and if the item exceeds the boundary
-                        if ((int)slots[width, height].item.size.y > 1 &&
-                            slots[width, height].item.size.y + width > slotColumnNumber)
-                        {
-
-                        }
-                    }
-                }
-
-                //print("Not Found: " + width + " " + height);
             }
         }
 
         // Return invalid slot if no available slots
         return new Vector2(-1, -1);
+    }
+
+    public bool SlotsOccupiedCheck(ref int _xSlot, ref int _ySlot, Item _item)
+    {
+        // Check if slots are occupied
+        if (!slots[_xSlot, _ySlot].occupied)
+        {
+            // Check if item size exceeds slot row or column amount
+            if (_item.size.x + _xSlot > slotColumnNumber ||
+                _item.size.y + _ySlot > slotRowNumber)
+            {
+                // If true continue to next loop
+                return true;
+            }
+
+            // Loop over slots require to hold item
+            for (int y = _ySlot; y < _ySlot + _item.size.y; ++y)
+            {
+                for (int x = _xSlot; x < _xSlot + _item.size.x; ++x)
+                {
+                    // Check if item overlaps any other items
+                    if (slots[x, y].occupied)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        else
+        {
+            // Check if item is null
+            if (slots[_xSlot, _ySlot].item != null)
+            {
+                // Check if current slot is stackable and if not at maximum capacity
+                if (slots[_xSlot, _ySlot].item.stackable && slots[_xSlot, _ySlot].item.itemID == _item.itemID &&
+                    slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].currentStack)
+                {
+                    // If true return current slot
+                    return false;
+                }
+
+                // If slot is occupied and not stackable, check if the item exceeds the size of 1 and if the item exceeds the boundary
+                if ((int)slots[_xSlot, _ySlot].item.size.x > 1 &&
+                    slots[_xSlot, _ySlot].item.size.x + _xSlot > slotColumnNumber)
+                {
+                    /// Skip occupied slots
+                }
+            }
+        }
+
+        return true;
     }
 }
