@@ -14,6 +14,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public int itemID;
 
     public bool stackable;
+    public int currentStack;
     public int maxStack;
 
     public Transform topLeftPivotPoint;
@@ -26,6 +27,8 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private Inventory inventory;
 
+    public Text numberOfStacksText;
+
     private void Start()
     {
         inventory = FindObjectOfType<Inventory>();
@@ -34,6 +37,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void Update()
     {
         UpdateState();
+        UpdateText();
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
@@ -97,19 +101,18 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
             inventory.SetOccupied((int)gridPosition.x, (int)gridPosition.y, this, true);
             gameObject.transform.position = oldPosition;
+        }
+    }
 
-            //print(topLeftPivotPoint.position);
-            //
-            //Vector2 gridPos = new Vector2(gameObject.transform.localPosition.x, gameObject.transform.localPosition.y) - new Vector2(-400, 100);
-            //gridPos /= 100.0f;
-            //gridPos.y = -gridPos.y;
-            //gridPos += new Vector2(0.5f, 0.5f);
-            //gridPos.x = (int)gridPos.x;
-            //gridPos.y = (int)gridPos.y;
-            //gridPos.x *= 100.0f+-400.0f;
-            //gridPos.y *= -100.0f + 100.0f;
-            //gameObject.transform.localPosition = new Vector3(gridPos.x, gridPos.y, 0);
-
+    void UpdateText()
+    {
+        if (currentStack > 1)
+        {
+            numberOfStacksText.text = currentStack.ToString();
+        }
+        else
+        {
+            numberOfStacksText.text = "";
         }
     }
 

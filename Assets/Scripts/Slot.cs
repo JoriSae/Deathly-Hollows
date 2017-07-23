@@ -9,6 +9,4 @@ public class Slot : MonoBehaviour
     public Vector2 gridPosition;
 
     public bool occupied;
-
-    public int currentStack;
 }

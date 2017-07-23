@@ -60,16 +60,26 @@ public class Inventory : MonoBehaviour
         if (gridPosition.x != -1 &&
             gridPosition.y != -1)
         {
-            Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
+            if (slots[(int)gridPosition.x, (int)gridPosition.y].occupied)
+            {
+                slots[(int)gridPosition.x, (int)gridPosition.y].item.currentStack += 1;
+                print ("run");
+            }
+            else
+            {
+                Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
 
-            itemPosition.x -= (cellSize.x / 2);
-            itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (_item.size.y - 1));
+                itemPosition.x -= (cellSize.x / 2);
+                itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (_item.size.y - 1));
 
-            Item newItem = Instantiate(_item, itemPosition, Quaternion.identity) as Item;
+                Item newItem = Instantiate(_item, itemPosition, Quaternion.identity) as Item;
 
-            newItem.transform.SetParent(itemContainer.transform);
+                newItem.transform.SetParent(itemContainer.transform);
 
-            SetOccupied((int)gridPosition.x, (int)gridPosition.y, _item, true);
+                SetOccupied((int)gridPosition.x, (int)gridPosition.y, newItem, true);
+
+                slots[(int)gridPosition.x, (int)gridPosition.y].item.currentStack += 1;
+            }
         }
     }
 
@@ -140,7 +150,7 @@ public class Inventory : MonoBehaviour
             {
                 // Check if current slot is stackable and if not at maximum capacity
                 if (slots[_xSlot, _ySlot].item.stackable && slots[_xSlot, _ySlot].item.itemID == _item.itemID &&
-                    slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].currentStack)
+                    slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].item.currentStack)
                 {
                     // If true return current slot
                     return false;
