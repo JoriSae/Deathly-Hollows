@@ -3,27 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Zombie : MonoBehaviour {
+    //declare varialbes
 
     public float Health;
-
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public int EXPReward;
 
     void Damage(float _Damage)
-    {
+    {   //reduce damage and kill if required
         Health -= _Damage;
         if (Health <= 0)
         {
+            //remove the zombie
             Destroy(this.gameObject);
-            Debug.Log("Zombie Killed");
+            //reward the player with EXP
+            Player.instance.Exp += EXPReward;
         }
     }
 }
