@@ -9,11 +9,13 @@ public class ArrowDamage : MonoBehaviour {
         public float Damage;
         public float ArrowSpeed;
         public float Knockback;
-
+        private bool isColliding = false;
 
         // Update is called once per frame
         void Update()
         {
+        isColliding = false;
+
         //move the arrow forward
         transform.position += transform.up * ArrowSpeed * Time.deltaTime;
 
@@ -26,6 +28,9 @@ public class ArrowDamage : MonoBehaviour {
         //detect if the arrow is hitting an enemy
         void OnTriggerEnter(Collider other)
         {
+        if (isColliding) return;
+        isColliding = true;
+
         if (other.gameObject.tag == "Resource1" || other.gameObject.tag == "Resource2" || other.gameObject.tag == "Resource3")
         {
             Destroy(this.gameObject);
