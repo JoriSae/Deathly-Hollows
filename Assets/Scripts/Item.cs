@@ -71,10 +71,10 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             itemState = ItemState.itemStationary;
 
-            if (topLeftPivotPoint.position.x + (inventory.cellSize.x / 2) < inventory.slots[0, 0].transform.position.x - (inventory.cellSize.x / 2) ||
-                topLeftPivotPoint.position.x + (inventory.cellSize.x / 2) > inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.x + (inventory.cellSize.x / 2) ||
-                topLeftPivotPoint.position.y - (inventory.cellSize.y / 2) > inventory.slots[0, 0].transform.position.y + (inventory.cellSize.y / 2) ||
-                topLeftPivotPoint.position.y - (inventory.cellSize.y / 2) < inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.y - (inventory.cellSize.y / 2))
+            if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) < inventory.slots[0, 0].transform.position.x - (inventory.cellSize.x / 2) ||
+                topLeftPivotPoint.position.x > inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.x + (inventory.cellSize.x / 2) ||
+                topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) > inventory.slots[0, 0].transform.position.y + (inventory.cellSize.y / 2) ||
+                topLeftPivotPoint.position.y < inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.y - (inventory.cellSize.y / 2))
             {
                 Cursor.visible = true;
                 Destroy(gameObject);
