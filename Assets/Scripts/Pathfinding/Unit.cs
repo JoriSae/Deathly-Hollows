@@ -16,6 +16,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         circle = GetComponent<SphereCollider>();
         DONTTOUCHMEH = GetComponent<CapsuleCollider>();
     }
@@ -31,19 +32,19 @@ public class Unit : MonoBehaviour
     {
         timer -= Time.deltaTime;
         //Search for the player
-        if (timer <= 0 && circle.bounds.Contains(target.position))
+        if (timer <= 0) //&& circle.bounds.Contains(target.position))
         {
-            if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position) == false)
-            {
+            //if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position) == false)
+            //{
                 //Chase the player
                 PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
-                timer = 0.5f;
-            }
-            if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position))
-            {
+                timer = 1f;
+            //}
+            //if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position))
+            //
                 //Attacking
-                StopAllCoroutines();
-            }
+                //StopAllCoroutines();
+            //}
         }
     }
 
