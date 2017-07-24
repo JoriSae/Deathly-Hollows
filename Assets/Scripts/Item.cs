@@ -78,6 +78,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 Cursor.visible = true;
                 Destroy(gameObject);
+
                 return;
             }
 
@@ -96,11 +97,19 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                         {
                             if (inventory.slots[width, height].occupied)
                             {
-                                inventory.slots[width, height].item.currentStack += currentStack;
+                                if (inventory.slots[width, height].item.currentStack + currentStack > maxStack)
+                                {
+                                    currentStack = (inventory.slots[width, height].item.currentStack + currentStack) - maxStack;
+                                    inventory.slots[width, height].item.currentStack = maxStack;
+                                }
+                                else
+                                {
+                                    inventory.slots[width, height].item.currentStack += currentStack;
 
-                                Destroy(gameObject);
+                                    Destroy(gameObject);
 
-                                return;
+                                    return;
+                                }
                             }
                             else
                             {

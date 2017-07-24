@@ -147,7 +147,7 @@ public class Inventory : MonoBehaviour
             {
                 // Check if current slot is stackable and if not at maximum capacity
                 if (slots[_xSlot, _ySlot].item.stackable && slots[_xSlot, _ySlot].item.itemID == _item.itemID &&
-                    slots[_xSlot, _ySlot].item.maxStack >= slots[_xSlot, _ySlot].item.currentStack + _item.currentStack)
+                    slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].item.currentStack)
                 {
                     // If true return current slot
                     return false;
