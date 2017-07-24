@@ -63,7 +63,6 @@ public class Inventory : MonoBehaviour
             if (slots[(int)gridPosition.x, (int)gridPosition.y].occupied)
             {
                 slots[(int)gridPosition.x, (int)gridPosition.y].item.currentStack += 1;
-                print ("run");
             }
             else
             {
