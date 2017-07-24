@@ -71,6 +71,16 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             itemState = ItemState.itemStationary;
 
+            if (topLeftPivotPoint.position.x + (inventory.cellSize.x / 2) < inventory.slots[0, 0].transform.position.x - (inventory.cellSize.x / 2) ||
+                topLeftPivotPoint.position.x + (inventory.cellSize.x / 2) > inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.x + (inventory.cellSize.x / 2) ||
+                topLeftPivotPoint.position.y - (inventory.cellSize.y / 2) > inventory.slots[0, 0].transform.position.y + (inventory.cellSize.y / 2) ||
+                topLeftPivotPoint.position.y - (inventory.cellSize.y / 2) < inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.y - (inventory.cellSize.y / 2))
+            {
+                Cursor.visible = true;
+                Destroy(gameObject);
+                return;
+            }
+
             for (int height = 0; height < inventory.slotRowNumber; height++)
             {
                 for (int width = 0; width < inventory.slotColumnNumber; width++)
@@ -84,16 +94,27 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
                         if (!slotOccupied)
                         {
-                            inventory.SetOccupied(width, height, this, true);
+                            if (inventory.slots[width, height].occupied)
+                            {
+                                inventory.slots[width, height].item.currentStack += currentStack;
 
-                            Vector2 itemPosition = inventory.slots[width, height].transform.position;
+                                Destroy(gameObject);
 
-                            itemPosition.x -= (inventory.cellSize.x / 2);
-                            itemPosition.y -= (inventory.cellSize.y / 2) + (inventory.cellSize.y * (size.y - 1));
+                                return;
+                            }
+                            else
+                            {
+                                inventory.SetOccupied(width, height, this, true);
 
-                            gameObject.transform.position = itemPosition;
+                                Vector2 itemPosition = inventory.slots[width, height].transform.position;
 
-                            return;
+                                itemPosition.x -= (inventory.cellSize.x / 2);
+                                itemPosition.y -= (inventory.cellSize.y / 2) + (inventory.cellSize.y * (size.y - 1));
+
+                                gameObject.transform.position = itemPosition;
+
+                                return;
+                            }
                         }
                     }
                 }
