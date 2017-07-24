@@ -51,13 +51,19 @@ public class Unit : MonoBehaviour
 
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful)
     {
-
-        if (pathSuccessful)
+        if (this.gameObject != null)
         {
-            StopCoroutine("FollowPath");
-            path = newPath;
-            targetIndex = 0;
-            StartCoroutine("FollowPath");
+            if (pathSuccessful)
+            {
+                StopCoroutine("FollowPath");
+                path = newPath;
+                targetIndex = 0;
+                StartCoroutine("FollowPath");
+            }
+        }
+        else if (this.gameObject == null)
+        {
+            Destroy(this.gameObject);
         }
     }
 

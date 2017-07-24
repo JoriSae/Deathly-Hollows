@@ -15,6 +15,9 @@ public class Player : MonoBehaviour {
     private float slashtimer;
     public int WeaponSelected;
 
+    //player health variable
+    public float Health;
+
     //exp varialbes
     public int Level;
     public int Exp;
