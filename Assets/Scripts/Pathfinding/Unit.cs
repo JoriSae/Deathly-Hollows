@@ -13,21 +13,22 @@ public class Unit : MonoBehaviour
     float timer = 0.5f;
     public SphereCollider circle;
     CapsuleCollider DONTTOUCHMEH;
+    public bool zombiedead = false;
 
     private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         circle = GetComponent<SphereCollider>();
-        DONTTOUCHMEH = GetComponent<CapsuleCollider>();
+        //DONTTOUCHMEH = GetComponent<CapsuleCollider>();
     }
 
     // States
 
-        //Seeking
+    //Seeking
 
-        //Chasing
+    //Chasing
 
-        //Attacking
+    //Attacking
     private void FixedUpdate()
     {
         timer -= Time.deltaTime;
@@ -36,14 +37,21 @@ public class Unit : MonoBehaviour
         {
             //if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position) == false)
             //{
-                //Chase the player
-                PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
-                timer = 1f;
+            //Chase the player
+           
+            {
+                if (!zombiedead)
+                {
+                    PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                    timer = 1f;
+                }
+            }
+           
             //}
             //if (DONTTOUCHMEH.bounds.Contains(GameObject.FindGameObjectWithTag("Player").transform.position))
             //
-                //Attacking
-                //StopAllCoroutines();
+            //Attacking
+            //StopAllCoroutines();
             //}
         }
     }
@@ -51,19 +59,20 @@ public class Unit : MonoBehaviour
 
     public void OnPathFound(Vector2[] newPath, bool pathSuccessful)
     {
-        if (this.gameObject != null)
+        if (!zombiedead)
         {
-            if (pathSuccessful)
+
             {
-                StopCoroutine("FollowPath");
-                path = newPath;
-                targetIndex = 0;
-                StartCoroutine("FollowPath");
+                if (pathSuccessful)
+                {
+                    StopCoroutine("FollowPath");
+                    path = newPath;
+                    targetIndex = 0;
+                    StartCoroutine("FollowPath");
+                }
             }
-        }
-        else if (this.gameObject == null)
-        {
-            Destroy(this.gameObject);
+            if (gameObject == null)
+                return;
         }
     }
 
@@ -98,7 +107,7 @@ public class Unit : MonoBehaviour
             for (int i = targetIndex; i < path.Length; i++)
             {
                 Gizmos.color = Color.black;
-                Gizmos.DrawCube(path[i], new Vector2(0.2f,0.2f));
+                Gizmos.DrawCube(path[i], new Vector2(0.2f, 0.2f));
 
                 if (i == targetIndex)
                 {
@@ -110,5 +119,11 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }

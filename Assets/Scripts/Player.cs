@@ -17,6 +17,8 @@ public class Player : MonoBehaviour {
 
     //player health variable
     public float Health;
+    public float MaxHealth;
+    public float Regeneration;
 
     //exp varialbes
     public int Level;
@@ -50,6 +52,17 @@ public class Player : MonoBehaviour {
         AttackFunction();
         swordswing();
         Levelupfunction();
+        checkhealth();
+        regen();
+    }
+
+    void checkhealth()
+    {
+        if (Health <= 0)
+        {
+            //check if player is dead
+            Debug.Log("Your Dead");
+        }
     }
 
     void AttackFunction()
@@ -140,12 +153,21 @@ public class Player : MonoBehaviour {
         
     }
 
+    void regen()
+    {
+        if (Health < MaxHealth)
+        {
+            Health += Regeneration * Time.deltaTime; 
+        }
+    }
+
     //EXP and level up Area
     public void Levelupfunction()
     {
         if (Exp >= NextLevelExp)
         {
             NextLevelExp += ExpExpo * Level;
+            MaxHealth += 10;
             Level += 1;
         }      
     }

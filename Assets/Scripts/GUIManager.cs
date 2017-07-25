@@ -7,6 +7,8 @@ public class GUIManager : MonoBehaviour {
     public Text LevelText;
     public Text ExpNeededText;
     public Text CurrentExpText;
+    public Slider Healthbar;
+    public Text healthoverlaytext;
 
 	// Use this for initialization
 	void Start () {
@@ -21,5 +23,9 @@ public class GUIManager : MonoBehaviour {
         ExpNeededText.text = "Next Level Exp: " + Player.instance.NextLevelExp.ToString();
 
         CurrentExpText.text = "Current Exp: " + Player.instance.Exp.ToString();
+
+        Healthbar.value = (Player.instance.Health / Player.instance.MaxHealth) * 100;
+
+        healthoverlaytext.text = Player.instance.Health.ToString("F0") + "/" + Player.instance.MaxHealth.ToString("F0");
     }
 }
