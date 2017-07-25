@@ -75,6 +75,16 @@ public class Inventory : MonoBehaviour
 
                 newItem.transform.SetParent(itemContainer.transform);
 
+                newItem.imageObject.sprite = newItem.sprite;
+
+                RectTransform rt = newItem.GetComponent<RectTransform>();
+
+                rt.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+
+                newItem.primaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+
+                newItem.secondaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+
                 SetOccupied((int)gridPosition.x, (int)gridPosition.y, newItem, true);
             }
         }

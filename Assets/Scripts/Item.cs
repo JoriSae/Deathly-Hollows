@@ -29,6 +29,14 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public Text numberOfStacksText;
 
+    [Header("Sprite to use & Object to apply to")]
+    public Image imageObject;
+    public Sprite sprite;
+
+    [Header("RectTransforms")]
+    public RectTransform primaryImage;
+    public RectTransform secondaryImage;
+
     private void Start()
     {
         inventory = FindObjectOfType<Inventory>();
@@ -56,7 +64,6 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                         topLeftPivotPoint.position.y - (inventory.cellSize.x / 2) == inventory.slots[width, height].transform.position.y)
                     {
                         print(inventory.slots[width, height].transform.position + " " + topLeftPivotPoint.position);
-
                         gridPosition = new Vector2(width, height);
                         inventory.SetOccupied(width, height, this, false);
                     }
@@ -77,6 +84,9 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 topLeftPivotPoint.position.y < inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.y - (inventory.cellSize.y / 2))
             {
                 Cursor.visible = true;
+
+                print(gridPosition);
+                //inventory.SetOccupied((int)gridPosition.x, (int)gridPosition.y, this, false);
                 Destroy(gameObject);
 
                 return;
