@@ -103,18 +103,34 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     {
                         bool slotOccupied = inventory.SlotsOccupiedCheck(ref width, ref height, this);
 
+                        Slot slot = inventory.slots[width, height];
+
                         if (!slotOccupied)
                         {
-                            if (inventory.slots[width, height].occupied)
+                            for (int y = height; y < height + size.y; ++y)
                             {
-                                if (inventory.slots[width, height].item.currentStack + currentStack > maxStack)
+                                for (int x = width; x < width + size.x; ++x)
                                 {
-                                    currentStack = (inventory.slots[width, height].item.currentStack + currentStack) - maxStack;
-                                    inventory.slots[width, height].item.currentStack = maxStack;
+                                    if (slot.occupied)
+                                    {
+                                        print(x + " " + y);
+                                        slot = inventory.slots[x, y];
+                                        goto occupied;
+                                    }
+                                }
+                            }
+
+                            occupied:
+                            if (slot.occupied)
+                            {
+                                if (slot.item.currentStack + currentStack > maxStack)
+                                {
+                                    currentStack = (slot.item.currentStack + currentStack) - maxStack;
+                                    slot.item.currentStack = maxStack;
                                 }
                                 else
                                 {
-                                    inventory.slots[width, height].item.currentStack += currentStack;
+                                    slot.item.currentStack += currentStack;
 
                                     Destroy(gameObject);
 

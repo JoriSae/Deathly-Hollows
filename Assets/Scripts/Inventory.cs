@@ -140,6 +140,26 @@ public class Inventory : MonoBehaviour
             {
                 for (int x = _xSlot; x < _xSlot + _item.size.x; ++x)
                 {
+                    // Check if item is null
+                    if (slots[x, y].item != null)
+                    {
+                        // Check if current slot is stackable and if not at maximum capacity
+                        if (slots[x, y].item.stackable && slots[x, y].item.itemID == _item.itemID &&
+                            slots[x, y].item.maxStack > slots[x, y].item.currentStack)
+                        {
+                            print(x + " " + y);
+                            // If true return current slot
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            // Loop over slots require to hold item
+            for (int y = _ySlot; y < _ySlot + _item.size.y; ++y)
+            {
+                for (int x = _xSlot; x < _xSlot + _item.size.x; ++x)
+                {
                     // Check if item overlaps any other items
                     if (slots[x, y].occupied)
                     {
