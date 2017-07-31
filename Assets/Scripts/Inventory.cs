@@ -109,8 +109,16 @@ public class Inventory : MonoBehaviour
             {
                 slots[x, y].occupied = _occupied;
                 slots[x, y].item = _item;
-                slots[x, y].xSectionOfItem = x - _xSlot;
-                slots[x, y].ySectionOfItem = y - _ySlot;
+                if (_occupied)
+                {
+                    slots[x, y].xSectionOfItem = x - _xSlot;
+                    slots[x, y].ySectionOfItem = y - _ySlot;
+                }
+                else
+                {
+                    slots[x, y].xSectionOfItem = 0;
+                    slots[x, y].ySectionOfItem = 0;
+                }
             }
         }
     }
