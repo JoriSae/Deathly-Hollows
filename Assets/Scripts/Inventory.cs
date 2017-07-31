@@ -11,6 +11,8 @@ public class Inventory : MonoBehaviour
     Vector2 spacing;
     public Vector2 cellSize;
 
+    public Image inventoryBackground;
+
     public int slotRowNumber;
     public int slotColumnNumber;
     public Slot[,] slots;
@@ -37,6 +39,10 @@ public class Inventory : MonoBehaviour
 
         gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayoutGroup.constraintCount = slotColumnNumber;
+
+        float x = (slotColumnNumber * cellSize.x) + padding.left + padding.right;
+        float y = (slotRowNumber * cellSize.y) + padding.top + padding.bottom;
+        inventoryBackground.rectTransform.sizeDelta = new Vector2(x, y);
     }
 
     void SpawnInventorySlots()
@@ -60,33 +66,38 @@ public class Inventory : MonoBehaviour
         if (gridPosition.x != -1 &&
             gridPosition.y != -1)
         {
-            if (slots[(int)gridPosition.x, (int)gridPosition.y].occupied)
+            for (int y = (int)gridPosition.y; y < (int)gridPosition.y + _item.size.y; ++y)
             {
-                slots[(int)gridPosition.x, (int)gridPosition.y].item.currentStack += 1;
+                for (int x = (int)gridPosition.x; x < (int)gridPosition.x + _item.size.x; ++x)
+                {
+                    if (slots[x, y].occupied)
+                    {
+                        slots[x, y].item.currentStack += 1;
+                        return;
+                    }
+                }
             }
-            else
-            {
-                Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
 
-                itemPosition.x -= (cellSize.x / 2);
-                itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (_item.size.y - 1));
+            Vector2 itemPosition = slots[(int)gridPosition.x, (int)gridPosition.y].transform.position;
 
-                Item newItem = Instantiate(_item, itemPosition, Quaternion.identity) as Item;
+            itemPosition.x -= (cellSize.x / 2);
+            itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (_item.size.y - 1));
 
-                newItem.transform.SetParent(itemContainer.transform);
+            Item newItem = Instantiate(_item, itemPosition, Quaternion.identity) as Item;
 
-                newItem.imageObject.sprite = newItem.sprite;
+            newItem.transform.SetParent(itemContainer.transform);
 
-                RectTransform rt = newItem.GetComponent<RectTransform>();
+            newItem.imageObject.sprite = newItem.sprite;
 
-                rt.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+            RectTransform rt = newItem.GetComponent<RectTransform>();
 
-                newItem.primaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+            rt.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
 
-                newItem.secondaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+            newItem.primaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
 
-                SetOccupied((int)gridPosition.x, (int)gridPosition.y, newItem, true);
-            }
+            newItem.secondaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
+
+            SetOccupied((int)gridPosition.x, (int)gridPosition.y, newItem, true);
         }
     }
 
@@ -98,6 +109,8 @@ public class Inventory : MonoBehaviour
             {
                 slots[x, y].occupied = _occupied;
                 slots[x, y].item = _item;
+                slots[x, y].xSectionOfItem = x - _xSlot;
+                slots[x, y].ySectionOfItem = y - _ySlot;
             }
         }
     }
@@ -109,7 +122,7 @@ public class Inventory : MonoBehaviour
         {
             for (int width = 0; width < slotColumnNumber; ++width)
             {
-                bool slotOccupied = SlotsOccupiedCheck(ref width, ref height, _item);
+                bool slotOccupied = SlotsOccupiedCheck(ref width, ref height, _item, false);
 
                 if (!slotOccupied)
                 {
@@ -122,7 +135,7 @@ public class Inventory : MonoBehaviour
         return new Vector2(-1, -1);
     }
 
-    public bool SlotsOccupiedCheck(ref int _xSlot, ref int _ySlot, Item _item)
+    public bool SlotsOccupiedCheck(ref int _xSlot, ref int _ySlot, Item _item, bool _movingItem)
     {
         // Check if slots are occupied
         if (!slots[_xSlot, _ySlot].occupied)
@@ -135,22 +148,46 @@ public class Inventory : MonoBehaviour
                 return true;
             }
 
-            // Loop over slots require to hold item
-            for (int y = _ySlot; y < _ySlot + _item.size.y; ++y)
+            if (_movingItem)
             {
-                for (int x = _xSlot; x < _xSlot + _item.size.x; ++x)
+                print("should run");
+                // Loop over slots require to hold item
+                for (int y = _ySlot; y < _ySlot + (_item.size.y - slots[_xSlot, _ySlot].ySectionOfItem); ++y)
                 {
-                    // Check if item is null
-                    if (slots[x, y].item != null)
+                    for (int x = _xSlot; x < _xSlot + (_item.size.x - slots[_xSlot, _ySlot].xSectionOfItem); ++x)
                     {
-                        // Check if current slot is stackable and if not at maximum capacity
-                        if (slots[x, y].item.stackable && slots[x, y].item.itemID == _item.itemID &&
-                            slots[x, y].item.maxStack > slots[x, y].item.currentStack)
+                        print("actually runs");
+                        // Check if item is null
+                        if (slots[x, y].item != null)
                         {
-                            print(x + " " + y);
-                            // If true return current slot
-                            return false;
+                            print(x + " " + y + " " + _xSlot + " " + _ySlot);
+                            print(slots[_xSlot, _ySlot].xSectionOfItem);
+                            // Check if current slot is stackable and if not at maximum capacity
+                            if (slots[x, y].item.stackable && slots[x, y].item.itemID == _item.itemID &&
+                                slots[x, y].item.maxStack > slots[x, y].item.currentStack)
+                            {
+
+                                // If true return current slot
+                                return false;
+                            }
                         }
+                    }
+                }
+            }
+            else
+            {
+                // Check if item is null
+                if (slots[_xSlot, _ySlot].item != null)
+                {
+                    //print(x + " " + y + " " + _xSlot + " " + _ySlot);
+                    //print(slots[_xSlot, _ySlot].xSectionOfItem);
+                    // Check if current slot is stackable and if not at maximum capacity
+                    if (slots[_xSlot, _ySlot].item.stackable && slots[_xSlot, _ySlot].item.itemID == _item.itemID &&
+                        slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].item.currentStack)
+                    {
+
+                        // If true return current slot
+                        return false;
                     }
                 }
             }
@@ -172,22 +209,24 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            // Check if item is null
-            if (slots[_xSlot, _ySlot].item != null)
+            // Loop over slots require to hold item
+            for (int y = _ySlot; y < _ySlot + (_item.size.y - slots[_xSlot, _ySlot].ySectionOfItem); ++y)
             {
-                // Check if current slot is stackable and if not at maximum capacity
-                if (slots[_xSlot, _ySlot].item.stackable && slots[_xSlot, _ySlot].item.itemID == _item.itemID &&
-                    slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].item.currentStack)
+                for (int x = _xSlot; x < _xSlot + (_item.size.x - slots[_xSlot, _ySlot].xSectionOfItem); ++x)
                 {
-                    // If true return current slot
-                    return false;
-                }
-
-                // If slot is occupied and not stackable, check if the item exceeds the size of 1 and if the item exceeds the boundary
-                if ((int)slots[_xSlot, _ySlot].item.size.x > 1 &&
-                    slots[_xSlot, _ySlot].item.size.x + _xSlot > slotColumnNumber)
-                {
-                    /// Skip occupied slots
+                    // Check if item is null
+                    if (slots[x, y].item != null)
+                    {
+                        // Check if current slot is stackable and if not at maximum capacity
+                        if (slots[x, y].item.stackable && slots[x, y].item.itemID == _item.itemID &&
+                            slots[x, y].item.maxStack > slots[x, y].item.currentStack)
+                        {
+                            // print(x + " " + y + " " + _xSlot + " " + _ySlot);
+                            // print(slots[_xSlot, _ySlot].xSectionOfItem);
+                            // If true return current slot
+                            return false;
+                        }
+                    }
                 }
             }
         }

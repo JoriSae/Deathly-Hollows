@@ -78,10 +78,10 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             itemState = ItemState.itemStationary;
 
-            if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) < inventory.slots[0, 0].transform.position.x - (inventory.cellSize.x / 2) ||
-                topLeftPivotPoint.position.x > inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.x + (inventory.cellSize.x / 2) ||
-                topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) > inventory.slots[0, 0].transform.position.y + (inventory.cellSize.y / 2) ||
-                topLeftPivotPoint.position.y < inventory.slots[inventory.slotColumnNumber - 1, inventory.slotRowNumber - 1].transform.position.y - (inventory.cellSize.y / 2))
+            if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) < inventory.inventoryBackground.transform.position.x - (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
+                topLeftPivotPoint.position.x                                   > inventory.inventoryBackground.transform.position.x + (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
+                topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) > inventory.inventoryBackground.transform.position.y + (inventory.inventoryBackground.rectTransform.sizeDelta.y / 2) ||
+                topLeftPivotPoint.position.y                                   < inventory.inventoryBackground.transform.position.y - (inventory.inventoryBackground.rectTransform.sizeDelta.y / 2))
             {
                 Cursor.visible = true;
 
@@ -101,7 +101,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                         topLeftPivotPoint.position.y - (inventory.cellSize.y / 2) >= inventory.slots[width, height].transform.position.y - (inventory.cellSize.y / 2) &&
                         topLeftPivotPoint.position.y - (inventory.cellSize.y / 2) < inventory.slots[width, height].transform.position.y + (inventory.cellSize.y / 2))
                     {
-                        bool slotOccupied = inventory.SlotsOccupiedCheck(ref width, ref height, this);
+                        bool slotOccupied = inventory.SlotsOccupiedCheck(ref width, ref height, this, true);
 
                         Slot slot = inventory.slots[width, height];
 
@@ -111,10 +111,10 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                             {
                                 for (int x = width; x < width + size.x; ++x)
                                 {
+                                    slot = inventory.slots[x, y];
                                     if (slot.occupied)
                                     {
                                         print(x + " " + y);
-                                        slot = inventory.slots[x, y];
                                         goto occupied;
                                     }
                                 }
