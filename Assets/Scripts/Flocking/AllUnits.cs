@@ -41,7 +41,7 @@ public class AllUnits : MonoBehaviour {
                                             Random.Range(0, 0));
             units[i] = Instantiate(unitPrefab, this.transform.position + unitPos, Quaternion.identity);
             units[i].GetComponent<FlockUnit>().Leader = this.gameObject;
-            Debug.Log("addedUnit");
+            //Debug.Log("addedUnit");
         }
 	}
 

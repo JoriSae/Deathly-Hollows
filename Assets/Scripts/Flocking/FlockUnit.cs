@@ -8,6 +8,8 @@ public class FlockUnit : MonoBehaviour
     public GameObject Leader;
     public Vector2 location = Vector2.zero;
     public Vector2 velocity;
+    public int moveSpeed;
+    public int rotationSpeed;
     Vector2 goalPos = Vector2.zero;
     Vector2 currentForce;
 
@@ -61,7 +63,7 @@ public class FlockUnit : MonoBehaviour
                 count++;
             }
 
-        if (count > 0)
+            if (count > 0)
             {
                 sum /= count;
                 Vector2 steer = sum - velocity;
@@ -131,9 +133,30 @@ public class FlockUnit : MonoBehaviour
         applyForce(currentForce);
     }
 
+    void seekLeader()
+    {
+        if (Leader.GetComponent<AllUnits>().seekGoal)
+        {
+            Vector3 dir = seek(goalPos);
+                // Only needed if objects don't share 'z' value.
+                dir.z = 0.0f;
+                if (dir != Vector3.zero)
+                    transform.rotation = Quaternion.Slerp(transform.rotation,
+                        Quaternion.FromToRotation(Vector3.right, dir),
+                        rotationSpeed * Time.deltaTime);
+
+                //Move Towards Target
+                transform.position += (Leader.transform.position - transform.position).normalized
+                    * moveSpeed * Time.deltaTime;
+            //this.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {
+        seekLeader();
         flock();
         goalPos = Leader.transform.position;
     }
