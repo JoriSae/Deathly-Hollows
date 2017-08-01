@@ -168,7 +168,6 @@ public class Player : MonoBehaviour {
         if (Exp >= NextLevelExp)
         {
             NextLevelExp += ExpExpo * Level;
-            MaxHealth += 10;
             Level += 1;
         }      
     }

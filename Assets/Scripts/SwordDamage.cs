@@ -35,5 +35,9 @@ public class SwordDamage : MonoBehaviour {
             other.transform.rotation = old;
 
         }
+        if (other.gameObject.tag == "ResourceUnit")
+        {
+            other.SendMessageUpwards("ResourceCollect");
+        }
     }
 }

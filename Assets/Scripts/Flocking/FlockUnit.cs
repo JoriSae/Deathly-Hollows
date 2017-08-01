@@ -8,7 +8,7 @@ public class FlockUnit : MonoBehaviour
     public GameObject Leader;
     public Vector2 location = Vector2.zero;
     public Vector2 velocity;
-    public int moveSpeed;
+    public float moveSpeed;
     public int rotationSpeed;
     Vector2 goalPos = Vector2.zero;
     Vector2 currentForce;
