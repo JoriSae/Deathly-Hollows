@@ -134,7 +134,22 @@ public class Inventory : MonoBehaviour
 
                 if (!slotOccupied)
                 {
-                    return new Vector2(width, height);
+                    if (slots[width, height].item != null)
+                    {
+                        if (_item.itemID == slots[width, height].item.itemID)
+                        {
+                            return new Vector2(width, height);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        return new Vector2(width, height);
+                    }
+
                 }
             }
         }
@@ -217,6 +232,14 @@ public class Inventory : MonoBehaviour
         }
         else
         {
+                        // Check if item size exceeds slot row or column amount
+            if (_item.size.x + _xSlot > slotColumnNumber ||
+                _item.size.y + _ySlot > slotRowNumber)
+            {
+                // If true continue to next loop
+                return true;
+            }
+
             // Loop over slots require to hold item
             for (int y = _ySlot; y < _ySlot + (_item.size.y - slots[_xSlot, _ySlot].ySectionOfItem); ++y)
             {
