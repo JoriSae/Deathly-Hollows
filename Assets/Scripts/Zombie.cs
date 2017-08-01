@@ -24,16 +24,21 @@ public class Zombie : MonoBehaviour {
         Health -= _Damage;
         if (Health <= 0)
         {
+           
+                System.Collections.Generic.List<GameObject> list = new System.Collections.Generic.List<GameObject>(this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units);
+            list.Remove(this.gameObject);
+            this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units = list.ToArray();
+
             this.gameObject.GetComponent<Unit>().zombiedead = true;
             //remove the zombie
             Destroy(this.gameObject);
-           
+
             //reward the player with EXP
             Player.instance.Exp += EXPReward;
         }
     }
 
-    public void OnTriggerStay(Collider collision)
+    public void OnCollisionStay2D(Collision2D collision)
     {
         if (timer < 0)
         {

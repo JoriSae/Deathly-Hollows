@@ -25,8 +25,9 @@ public class ArrowDamage : MonoBehaviour {
             Destroy(this.gameObject);
         }
 
+
         //detect if the arrow is hitting an enemy
-        void OnTriggerEnter(Collider other)
+        void OnTriggerEnter2D(Collider2D other)
         {
         if (isColliding) return;
         isColliding = true;

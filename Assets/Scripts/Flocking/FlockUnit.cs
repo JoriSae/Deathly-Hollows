@@ -52,22 +52,25 @@ public class FlockUnit : MonoBehaviour
 
         foreach (GameObject other in Leader.GetComponent<AllUnits>().units)
         {
-            if (other == this.gameObject)
-                continue;
-
-            float d = Vector2.Distance(location, other.GetComponent<FlockUnit>().location);
-
-            if (d < neighbourdist)
+            if (other != null)
             {
-                sum += other.GetComponent<FlockUnit>().velocity;
-                count++;
-            }
+                if (other == this.gameObject)
+                    continue;
 
-            if (count > 0)
-            {
-                sum /= count;
-                Vector2 steer = sum - velocity;
-                return steer;
+                float d = Vector2.Distance(location, other.GetComponent<FlockUnit>().location);
+
+                if (d < neighbourdist)
+                {
+                    sum += other.GetComponent<FlockUnit>().velocity;
+                    count++;
+                }
+
+                if (count > 0)
+                {
+                    sum /= count;
+                    Vector2 steer = sum - velocity;
+                    return steer;
+                }
             }
         }
         return Vector2.zero;
@@ -81,15 +84,18 @@ public class FlockUnit : MonoBehaviour
 
         foreach (GameObject other in Leader.GetComponent<AllUnits>().units)
         {
-            if (other == this.gameObject)
-                continue;
-
-            float d = Vector2.Distance(location, other.GetComponent<FlockUnit>().location);
-
-            if (d < neighbourdist)
+            if (other != null)
             {
-                sum += other.GetComponent<FlockUnit>().location;
-                count++;
+                if (other == this.gameObject)
+                    continue;
+
+                float d = Vector2.Distance(location, other.GetComponent<FlockUnit>().location);
+
+                if (d < neighbourdist)
+                {
+                    sum += other.GetComponent<FlockUnit>().location;
+                    count++;
+                }
             }
         }
 
@@ -116,7 +122,7 @@ public class FlockUnit : MonoBehaviour
             if (Leader.GetComponent<AllUnits>().seekGoal)
             {
                 gl = seek(goalPos);
-                currentForce = gl + ali + coh;
+                currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
             }
             else
                 currentForce = ali + coh;
@@ -156,8 +162,11 @@ public class FlockUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        seekLeader();
-        flock();
-        goalPos = Leader.transform.position;
+        if (this != null)
+        {
+            seekLeader();
+            flock();
+            goalPos = Leader.transform.position;
+        }
     }
 }

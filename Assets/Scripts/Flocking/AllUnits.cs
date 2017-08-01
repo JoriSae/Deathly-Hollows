@@ -45,4 +45,10 @@ public class AllUnits : MonoBehaviour {
         }
 	}
 
+    private void Update()
+    {
+        if (units.Length == 0)
+            Destroy(this.gameObject);
+    }
+
 }
