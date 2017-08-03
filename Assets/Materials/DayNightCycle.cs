@@ -5,8 +5,9 @@ using UnityEngine;
 public class DayNightCycle : MonoBehaviour
 {
     float time;
-
+    public Light light;
     public Material material;
+    public Texture2D tex2D;
 
     private void Start()
     {
@@ -21,5 +22,7 @@ public class DayNightCycle : MonoBehaviour
         print(time);
         Shader.SetGlobalFloat("_Time2", time);
         //material.SetFloat("_Time2", time);
+        light.color = tex2D.GetPixelBilinear(0, time);
+
     }
 }
