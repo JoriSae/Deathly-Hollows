@@ -24,4 +24,19 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
+
+    public void InventoryButtonActivation()
+    {
+        inventoryActive = !inventoryActive;
+
+        if (inventoryActive)
+        {
+            inventoryUI.GetComponent<RectTransform>().localPosition = Vector2.zero;
+        }
+        else
+        {
+            inventoryUI.transform.position = Vector2.one * 10000;
+        }
+    }
+
 }

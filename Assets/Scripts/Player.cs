@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     //variables
+    public bool leveledUp;
+    float levelTimer = 2;
 
     //weapon variables
     public GameObject ArrowGO;
@@ -48,19 +51,29 @@ public class Player : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         AttackTimer = AttackCooldown;
         SwordGO.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         AttackFunction();
         swordswing();
         Levelupfunction();
         checkhealth();
         regen();
         pickUpItemText.gameObject.SetActive(overItem);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (WeaponSelected == 0)
+                ChangeWeapon(1);
+            else if (WeaponSelected == 1)
+                ChangeWeapon(0);
+        }
     }
 
     void checkhealth()
@@ -74,7 +87,7 @@ public class Player : MonoBehaviour {
 
     void AttackFunction()
     {
-        
+
         //manages the attack cooldown
         if (AttackTimer > 0)
             AttackTimer -= Time.deltaTime;
@@ -84,7 +97,7 @@ public class Player : MonoBehaviour {
         {
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                
+
                 if (WeaponSelected == 1)//swing sword / sword selected
                 {
                     SwordGO.transform.rotation = head.transform.rotation;
@@ -95,7 +108,7 @@ public class Player : MonoBehaviour {
                 {
                     Instantiate(ArrowGO, transform.position, head.transform.rotation);
                 }
-                             
+
                 //if attack is initiated then reset the cooldown
                 AttackTimer = AttackCooldown;
             }//end attack key
@@ -106,10 +119,10 @@ public class Player : MonoBehaviour {
     {
         if (SwordSwinging == true)
         {
-            
+
             SwordGO.SetActive(true);
             //line up with forward
-            
+
             //slash
             SwordGO.transform.Rotate(Vector3.forward * Time.deltaTime * SlashSpeed);
             slashtimer += Time.deltaTime * SlashSpeed;
@@ -169,14 +182,14 @@ public class Player : MonoBehaviour {
                 Destroy(collision.gameObject);
             }
         }
-        
+
     }
 
     void regen()
     {
         if (Health < MaxHealth)
         {
-            Health += Regeneration * Time.deltaTime; 
+            Health += Regeneration * Time.deltaTime;
         }
     }
 
@@ -185,9 +198,21 @@ public class Player : MonoBehaviour {
     {
         if (Exp >= NextLevelExp)
         {
+            leveledUp = true;
             NextLevelExp += ExpExpo * Level;
             Level += 1;
-        }      
+        }
+
+        if (leveledUp)
+        {
+            levelTimer -= Time.deltaTime;
+
+            if (levelTimer <= 0)
+            {
+                levelTimer = 2;
+                leveledUp = false;
+            }
+        }
     }
 
 }

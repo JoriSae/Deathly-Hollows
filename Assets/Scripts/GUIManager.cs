@@ -9,14 +9,20 @@ public class GUIManager : MonoBehaviour {
     public Text CurrentExpText;
     public Slider Healthbar;
     public Text healthoverlaytext;
+    public Text levelUpText;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (Player.instance.leveledUp)
+            levelUpText.gameObject.SetActive(true);
+        else
+            levelUpText.gameObject.SetActive(false);
 
         LevelText.text = "Level: " + Player.instance.Level.ToString();
 
