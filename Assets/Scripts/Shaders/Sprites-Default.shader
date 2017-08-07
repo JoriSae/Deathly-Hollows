@@ -11,7 +11,7 @@ Shader "Sprites/New"
 		[HideInInspector] _Flip ("Flip", Vector) = (1,1,1,1)
 		[PerRendererData] _AlphaTex ("External Alpha", 2D) = "white" {}
 		[PerRendererData] _EnableExternalAlpha ("Enable External Alpha", Float) = 0
-		//_Time2 ("Time", Float) = 0
+		_Time55 ("Time", Float) = 0
 		_BlendTex ("Blend Texture", 2D) = "white" {}
 
 	}
@@ -45,11 +45,11 @@ Shader "Sprites/New"
 
 	
 	sampler2D _BlendTex;
-	float _Time2;
+	float _Time55;
 
 fixed4 SpriteFrag2(v2f IN) : SV_Target
 {
-    fixed4 c = SampleSpriteTexture (IN.texcoord) * tex2D(_BlendTex, float2(0,_Time2));
+    fixed4 c = SampleSpriteTexture (IN.texcoord) * tex2D(_BlendTex, float2(0,_Time55));
     c.rgb *= c.a;
 	//return tex2D(_BlendTex, IN.texcoord );
     return c;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -32,6 +33,10 @@ public class Player : MonoBehaviour {
 
     public static Player instance;
 
+    private bool overItem = false;
+
+    public Text pickUpItemText;
+
     // awake and declare singleton
     private void Awake()
     {
@@ -55,6 +60,7 @@ public class Player : MonoBehaviour {
         Levelupfunction();
         checkhealth();
         regen();
+        pickUpItemText.gameObject.SetActive(overItem);
     }
 
     void checkhealth()
@@ -125,10 +131,22 @@ public class Player : MonoBehaviour {
             WeaponSelected = 1;
     }
 
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Resource1") || collision.CompareTag("Resource2") || collision.CompareTag("Resource3"))
+        {
+            overItem = false;
+        }
+    }
 
     //resource collection code area
     public void OnTriggerStay2D(Collider2D collision)
     {
+        if (collision.CompareTag("Resource1") || collision.CompareTag("Resource2") || collision.CompareTag("Resource3"))
+        {
+            overItem = true;
+        }
+
         //you can place more resources in this function if you need more resources to be able to be picked up
         if (Input.GetKeyDown(KeyCode.E))
         {

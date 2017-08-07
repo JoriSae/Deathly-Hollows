@@ -5,6 +5,8 @@ using UnityEngine;
 public class Zombie : MonoBehaviour {
     //declare varialbes
 
+    public GameObject bloodSplatter;
+
     public float Health;
     public int EXPReward;
     public float zombieDamage;
@@ -22,6 +24,13 @@ public class Zombie : MonoBehaviour {
     void Damage(float _Damage)
     {   //reduce damage and kill if required
         Health -= _Damage;
+
+        Vector3 angle = transform.rotation.eulerAngles;
+
+        Quaternion newAngle = Quaternion.Euler(angle.x, angle.y, angle.z + 90);
+
+        GameObject newBloodSplatter = Instantiate(bloodSplatter, transform.position, newAngle) as GameObject;
+
         if (Health <= 0)
         {
            

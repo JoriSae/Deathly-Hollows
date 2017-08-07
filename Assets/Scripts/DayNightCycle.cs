@@ -8,6 +8,7 @@ public class DayNightCycle : MonoBehaviour
     public Light light;
     public Material material;
     public Texture2D tex2D;
+    public float secondsInDay;
 
     private void Start()
     {
@@ -17,11 +18,11 @@ public class DayNightCycle : MonoBehaviour
     void Update()
     {
 
-        time = Mathf.PingPong(Time.time, 5);
-        time = time / 5;
+        time = Mathf.PingPong(Time.time, secondsInDay);
+        time = time / secondsInDay;
         print(time);
-        Shader.SetGlobalFloat("_Time2", time);
-        //material.SetFloat("_Time2", time);
+        Shader.SetGlobalFloat("_Time55", time);
+        material.SetFloat("_Time55", time);
         light.color = tex2D.GetPixelBilinear(0, time);
 
     }
