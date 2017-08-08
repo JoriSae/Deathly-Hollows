@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public bool leveledUp;
     float levelTimer = 2;
 
+    public bool isDead = false;
+
     //weapon variables
     public GameObject ArrowGO;
     public float AttackCooldown;
@@ -80,8 +82,7 @@ public class Player : MonoBehaviour
     {
         if (Health <= 0)
         {
-            //check if player is dead
-            Debug.Log("Your Dead");
+            isDead = true;
         }
     }
 

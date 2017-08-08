@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public GameObject inventoryUI;
+    public GameObject crafting;
     private bool inventoryActive = false;
 	
 	// Update is called once per frame
@@ -13,6 +14,11 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryActive = !inventoryActive;
+
+            if (crafting.activeSelf == false)
+                crafting.SetActive(true);
+            else if (crafting.activeSelf == true)
+                crafting.SetActive(false);
 
             if (inventoryActive)
             {
@@ -28,6 +34,11 @@ public class GameManager : MonoBehaviour {
     public void InventoryButtonActivation()
     {
         inventoryActive = !inventoryActive;
+
+        if (crafting.activeSelf == false)
+            crafting.SetActive(true);
+        else if (crafting.activeSelf == true)
+            crafting.SetActive(false);
 
         if (inventoryActive)
         {

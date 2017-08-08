@@ -13,12 +13,14 @@ public class GUIManager : MonoBehaviour {
 
     bool paused = false;
     public GameObject pauseMenu;
+    public GameObject deathMenu;
 
     // Use this for initialization
     void Start () {
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
         paused = false;
+        deathMenu.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -26,8 +28,12 @@ public class GUIManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Pause();  
+            if (Player.instance.isDead != true)
+                Pause();  
         }
+
+        if (Player.instance.isDead == true)
+            deathMenu.SetActive(true);
 
         if (Player.instance.leveledUp)
             levelUpText.gameObject.SetActive(true);
