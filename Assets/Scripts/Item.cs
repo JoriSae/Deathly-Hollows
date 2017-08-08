@@ -17,7 +17,10 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public int currentStack;
     public int maxStack;
 
+    public bool equipable;
+
     public Transform topLeftPivotPoint;
+    public Image equipableItemSlot;
 
     public Vector2 size;
     public Vector2 gridPosition;
@@ -77,6 +80,8 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (eventData.button == 0)
         {
             itemState = ItemState.itemStationary;
+
+            //if ()
 
             if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) < inventory.inventoryBackground.transform.position.x - (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
                 topLeftPivotPoint.position.x                                   > inventory.inventoryBackground.transform.position.x + (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    List<Item> items = new List<Item>();
+    public List<Item> items = new List<Item>();
 
     RectOffset padding;
     Vector2 spacing;
@@ -97,6 +97,8 @@ public class Inventory : MonoBehaviour
 
             newItem.secondaryImage.sizeDelta = new Vector2(cellSize.x * newItem.size.x, cellSize.y * newItem.size.y);
 
+            items.Add(newItem);
+
             SetOccupied((int)gridPosition.x, (int)gridPosition.y, newItem, true);
         }
     }
@@ -138,7 +140,6 @@ public class Inventory : MonoBehaviour
                     {
                         if (_item.itemID == slots[width, height].item.itemID)
                         {
-                            print("I checked");
                             return new Vector2(width, height);
                         }
                         else
@@ -148,7 +149,6 @@ public class Inventory : MonoBehaviour
                     }
                     else
                     {
-                        print("its me");
                         return new Vector2(width, height);
                     }
 
