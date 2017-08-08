@@ -138,6 +138,7 @@ public class Inventory : MonoBehaviour
                     {
                         if (_item.itemID == slots[width, height].item.itemID)
                         {
+                            print("I checked");
                             return new Vector2(width, height);
                         }
                         else
@@ -147,6 +148,7 @@ public class Inventory : MonoBehaviour
                     }
                     else
                     {
+                        print("its me");
                         return new Vector2(width, height);
                     }
 

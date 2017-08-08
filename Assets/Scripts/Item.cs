@@ -112,12 +112,16 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                                 for (int x = width; x < width + size.x; ++x)
                                 {
                                     slot = inventory.slots[x, y];
-                                    if (slot.occupied)
+                                    if (slot.occupied && inventory.slots[x, y].item.itemID == itemID)
                                     {
                                         print(x + " " + y);
                                         goto occupied;
                                     }
                                 }
+                            }
+                            if (slot.occupied)
+                            {
+                                goto bad;
                             }
 
                             occupied:
@@ -155,6 +159,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 }
             }
 
+            bad:
             inventory.SetOccupied((int)gridPosition.x, (int)gridPosition.y, this, true);
             gameObject.transform.position = oldPosition;
         }
