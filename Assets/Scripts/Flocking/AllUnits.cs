@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class AllUnits : MonoBehaviour {
 
-    public GameObject[] units;
+    public List<GameObject> units;
     public GameObject unitPrefab;
     public int numUnits = 10;
     public Vector3 range = new Vector3(5, 5, 5);
+    public bool isPlayer;
 
     public bool seekGoal = true;
     public bool flocking = true;
@@ -32,10 +33,9 @@ public class AllUnits : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        units = new GameObject[numUnits];
-        
         for(int i = 0; i < numUnits; i++)
         {
+            units.Add(unitPrefab);
             Vector3 unitPos = new Vector3(Random.Range(-range.x, range.x),
                                             Random.Range(-range.y, range.y),
                                             Random.Range(0, 0));
@@ -47,8 +47,14 @@ public class AllUnits : MonoBehaviour {
 
     private void Update()
     {
-        if (units.Length == 0)
-            Destroy(this.gameObject);
+        if (!isPlayer)
+        {
+            if (units.Count == 0)
+            {
+                Destroy(this.gameObject, 2);
+                GetComponent<Unit>().zombiedead = true;
+            }
+        }
     }
 
 }

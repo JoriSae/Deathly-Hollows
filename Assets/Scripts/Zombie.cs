@@ -50,10 +50,8 @@ public class Zombie : MonoBehaviour {
 
         if (Health <= 0)
         {
-           
-                System.Collections.Generic.List<GameObject> list = new System.Collections.Generic.List<GameObject>(this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units);
-            list.Remove(this.gameObject);
-            this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units = list.ToArray();
+
+            this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
 
             this.gameObject.GetComponent<Unit>().zombiedead = true;
             //remove the zombie

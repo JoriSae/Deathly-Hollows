@@ -12,6 +12,7 @@ public class FlockUnit : MonoBehaviour
     public int rotationSpeed;
     Vector2 goalPos = Vector2.zero;
     Vector2 currentForce;
+    bool FoundPlayer = false;
 
     // Use this for initialization
     void Start()
@@ -122,7 +123,7 @@ public class FlockUnit : MonoBehaviour
             if (Leader.GetComponent<AllUnits>().seekGoal)
             {
                 gl = seek(goalPos);
-                currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
+                //currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
             }
             else
                 currentForce = ali + coh;
@@ -162,6 +163,18 @@ public class FlockUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!FoundPlayer)
+        {
+            if ((this.transform.position.x - FindObjectOfType<Player>().transform.position.x) <= 3 && (this.transform.position.y - FindObjectOfType<Player>().transform.position.y) <= 3)
+            {
+                this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
+                FoundPlayer = true;
+                Leader = GameObject.FindGameObjectWithTag("Player");
+
+                Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
+            }
+        }
+
         if (this != null)
         {
             seekLeader();
