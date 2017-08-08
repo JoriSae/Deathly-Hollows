@@ -11,13 +11,23 @@ public class GUIManager : MonoBehaviour {
     public Text healthoverlaytext;
     public Text levelUpText;
 
+    bool paused = false;
+    public GameObject pauseMenu;
+
     // Use this for initialization
     void Start () {
-		
-	}
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+        paused = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();  
+        }
 
         if (Player.instance.leveledUp)
             levelUpText.gameObject.SetActive(true);
@@ -33,5 +43,22 @@ public class GUIManager : MonoBehaviour {
         Healthbar.value = (Player.instance.Health / Player.instance.MaxHealth) * 100;
 
         healthoverlaytext.text = Player.instance.Health.ToString("F0") + "/" + Player.instance.MaxHealth.ToString("F0");
+    }
+
+    public void Pause()
+    {
+        if (!paused)
+        {
+            Time.timeScale = 0;
+            paused = true;
+            pauseMenu.SetActive(true);
+        }
+
+        else if (paused)
+        {
+            Time.timeScale = 1;
+            paused = false;
+            pauseMenu.SetActive(false);
+        }
     }
 }
