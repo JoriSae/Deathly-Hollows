@@ -12,6 +12,10 @@ public class Zombie : MonoBehaviour {
     public float zombieDamage;
     private float timer;
     public float attackcd;
+    private float timerSound;
+    private float rndsound;
+    public float growlchancepersecond;
+    public float growlCD;
 
     private void Update()
     {
@@ -19,6 +23,19 @@ public class Zombie : MonoBehaviour {
         {
             timer -= Time.deltaTime;
         }
+
+        //zombie sound
+        timerSound -= Time.deltaTime;
+        if (timerSound < 0)
+        {
+            rndsound = Random.Range(0, 300);
+            if (rndsound <= growlchancepersecond)
+            {
+                SoundManageScript.instance.playZombieGrowl(this.transform);
+            }
+            timerSound = growlCD;
+        }
+
     }
 
     void Damage(float _Damage)
