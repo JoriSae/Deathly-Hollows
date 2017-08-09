@@ -6,6 +6,8 @@ public class ResourceScript : MonoBehaviour {
     public int resourcehealth;
     public int ResourceDrop;
 
+    
+
     public GameObject ResourceTypeGO;
 
 

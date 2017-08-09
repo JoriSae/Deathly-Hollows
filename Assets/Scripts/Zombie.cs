@@ -54,6 +54,9 @@ public class Zombie : MonoBehaviour {
             this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
 
             this.gameObject.GetComponent<Unit>().zombiedead = true;
+
+            //drop loot chance
+            DropSpawnScript.instance.Drop(this.transform);
             //remove the zombie
             Destroy(this.gameObject);
 
