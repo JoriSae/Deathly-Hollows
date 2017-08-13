@@ -74,6 +74,11 @@ public class Zombie : MonoBehaviour {
                 Player.instance.Health -= zombieDamage * Time.deltaTime;
                 timer = attackcd;
             }
+            if (collision.gameObject.tag == "Building")
+            {
+                collision.gameObject.SendMessage("BuildingTakeDamage", 0.2f);
+            }
+                
         }
     }
 }
