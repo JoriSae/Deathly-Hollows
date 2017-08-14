@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftItem : MonoBehaviour
 {
@@ -25,7 +26,15 @@ public class CraftItem : MonoBehaviour
 
     private void Update()
     {
-       
+        if (stoneAmount <= StoneRequired && woodAmount <= WoodRequired)
+        {
+            GetComponentInChildren<Button>().interactable = false;
+        }
+
+        if (stoneAmount >= StoneRequired && woodAmount >= WoodRequired)
+        {
+            GetComponentInChildren<Button>().interactable = true;
+        }
     }
 
     public void craftItem()
