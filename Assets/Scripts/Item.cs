@@ -29,8 +29,12 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private Vector2 oldTopLeft;
 
     private Inventory inventory;
+    private Image equip;
+    private Slot equipSlot;
 
     public Text numberOfStacksText;
+
+    private Player player;
 
     [Header("Sprite to use & Object to apply to")]
     public Image imageObject;
@@ -43,6 +47,9 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void Start()
     {
         inventory = FindObjectOfType<Inventory>();
+        equip = GameObject.Find("Equip").GetComponent<Image>();
+        equipSlot = equip.GetComponent<Slot>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
@@ -72,6 +79,14 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     }
                 }
             }
+
+            if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) > equip.transform.position.x - (equip.rectTransform.sizeDelta.x / 2) &&
+                topLeftPivotPoint.position.x < equip.transform.position.x + (equip.rectTransform.sizeDelta.x / 2) &&
+                topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) < equip.transform.position.y + (equip.rectTransform.sizeDelta.y / 2) &&
+                topLeftPivotPoint.position.y > equip.transform.position.y - (equip.rectTransform.sizeDelta.y / 2))
+            {
+                equipSlot.occupied = false;
+            }
         }
     }
 
@@ -81,12 +96,48 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             itemState = ItemState.itemStationary;
 
-            //if ()
+            if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) > equip.transform.position.x - (equip.rectTransform.sizeDelta.x / 2) &&
+                topLeftPivotPoint.position.x                                   < equip.transform.position.x + (equip.rectTransform.sizeDelta.x / 2) &&
+                topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) < equip.transform.position.y + (equip.rectTransform.sizeDelta.y / 2) &&
+                topLeftPivotPoint.position.y                                   > equip.transform.position.y - (equip.rectTransform.sizeDelta.y / 2))
+            {
+                if (!equipSlot.occupied)
+                {
+                    transform.position = equip.transform.position;
+                    equipSlot.occupied = true;
 
-            if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) < inventory.inventoryBackground.transform.position.x - (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
-                topLeftPivotPoint.position.x                                   > inventory.inventoryBackground.transform.position.x + (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
-                topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) > inventory.inventoryBackground.transform.position.y + (inventory.inventoryBackground.rectTransform.sizeDelta.y / 2) ||
-                topLeftPivotPoint.position.y                                   < inventory.inventoryBackground.transform.position.y - (inventory.inventoryBackground.rectTransform.sizeDelta.y / 2))
+                    Vector2 itemPosition = equip.transform.position;
+
+                    itemPosition.x -= ((inventory.cellSize.x / 2) * size.x);
+                    itemPosition.y -= ((inventory.cellSize.y / 2) * size.y);
+
+                    print((size.y > 1 ? 1 : 0));
+
+                    gridPosition = new Vector2(-1, -1);
+
+                    gameObject.transform.position = itemPosition;
+
+                    switch (stringID)
+                    {
+                        case "Sword":
+                            print("check");
+                            player.ChangeWeapon(1);
+                            break;
+                        case "Bow":
+                            player.ChangeWeapon(0);
+                            break;
+                    }
+
+                    return;
+                }
+
+                goto bad;
+            }
+
+                if (topLeftPivotPoint.position.x + (inventory.cellSize.x * size.x) < inventory.inventoryBackground.transform.position.x - (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
+                    topLeftPivotPoint.position.x                                   > inventory.inventoryBackground.transform.position.x + (inventory.inventoryBackground.rectTransform.sizeDelta.x / 2) ||
+                    topLeftPivotPoint.position.y - (inventory.cellSize.y * size.y) > inventory.inventoryBackground.transform.position.y + (inventory.inventoryBackground.rectTransform.sizeDelta.y / 2) ||
+                    topLeftPivotPoint.position.y                                   < inventory.inventoryBackground.transform.position.y - (inventory.inventoryBackground.rectTransform.sizeDelta.y / 2))
             {
                 Cursor.visible = true;
 
@@ -165,7 +216,16 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             }
 
             bad:
-            inventory.SetOccupied((int)gridPosition.x, (int)gridPosition.y, this, true);
+            if (gridPosition.x > -1)
+            {
+                inventory.SetOccupied((int)gridPosition.x, (int)gridPosition.y, this, true);
+                print("not becoming true again");
+            }
+            else if (equipSlot.occupied)
+            {
+                equipSlot.occupied = true;
+            }
+
             gameObject.transform.position = oldPosition;
         }
     }

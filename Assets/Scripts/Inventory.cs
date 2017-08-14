@@ -110,9 +110,10 @@ public class Inventory : MonoBehaviour
             for (int x = _xSlot; x < _xSlot + _item.size.x; ++x)
             {
                 slots[x, y].occupied = _occupied;
-                slots[x, y].item = _item;
+
                 if (_occupied)
                 {
+                    slots[x, y].item = _item;
                     slots[x, y].xSectionOfItem = x - _xSlot;
                     slots[x, y].ySectionOfItem = y - _ySlot;
                 }
@@ -120,6 +121,7 @@ public class Inventory : MonoBehaviour
                 {
                     slots[x, y].xSectionOfItem = 0;
                     slots[x, y].ySectionOfItem = 0;
+                    slots[x, y].item = null;
                 }
             }
         }
@@ -191,7 +193,7 @@ public class Inventory : MonoBehaviour
                             if (slots[x, y].item.stackable && slots[x, y].item.itemID == _item.itemID &&
                                 slots[x, y].item.maxStack > slots[x, y].item.currentStack)
                             {
-
+                                print("Im fast");
                                 // If true return current slot
                                 return false;
                             }
@@ -210,7 +212,7 @@ public class Inventory : MonoBehaviour
                     if (slots[_xSlot, _ySlot].item.stackable && slots[_xSlot, _ySlot].item.itemID == _item.itemID &&
                         slots[_xSlot, _ySlot].item.maxStack > slots[_xSlot, _ySlot].item.currentStack)
                     {
-
+                        print("blue");
                         // If true return current slot
                         return false;
                     }
@@ -225,6 +227,7 @@ public class Inventory : MonoBehaviour
                     // Check if item overlaps any other items
                     if (slots[x, y].occupied)
                     {
+                        print("OIIIS");
                         return true;
                     }
                 }
@@ -238,6 +241,7 @@ public class Inventory : MonoBehaviour
             if (_item.size.x + _xSlot > slotColumnNumber ||
                 _item.size.y + _ySlot > slotRowNumber)
             {
+                print("ohBoy");
                 // If true continue to next loop
                 return true;
             }
@@ -254,6 +258,7 @@ public class Inventory : MonoBehaviour
                         if (slots[x, y].item.stackable && slots[x, y].item.itemID == _item.itemID &&
                             slots[x, y].item.maxStack > slots[x, y].item.currentStack)
                         {
+                            print("Imbadatnamess");
                             // print(x + " " + y + " " + _xSlot + " " + _ySlot);
                             // print(slots[_xSlot, _ySlot].xSectionOfItem);
                             // If true return current slot
