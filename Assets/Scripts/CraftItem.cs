@@ -26,6 +26,15 @@ public class CraftItem : MonoBehaviour
 
     private void Update()
     {
+        foreach (Item i in inventory.items)
+        {
+            if (i.itemID == 0)
+                stoneAmount = i.currentStack;
+
+            if (i.itemID == 2)
+                woodAmount = i.currentStack;
+        }
+
         if (stoneAmount <= StoneRequired && woodAmount <= WoodRequired)
         {
             GetComponentInChildren<Button>().interactable = false;
@@ -35,24 +44,26 @@ public class CraftItem : MonoBehaviour
         {
             GetComponentInChildren<Button>().interactable = true;
         }
+
+
     }
 
     public void craftItem()
     {
-        foreach (Item i in inventory.items)
-        {
-            if (i.itemID == 0)
-                stoneAmount += i.currentStack;
-
-            if (i.itemID == 2)
-                woodAmount += i.currentStack;
-        }
-
         if (stoneAmount >= StoneRequired && woodAmount >= WoodRequired)
         {
             inventory.AddItem(itemToAdd);
             stoneAmount -= StoneRequired;
             woodAmount -= WoodRequired;
+
+            foreach (Item i in inventory.items)
+            {
+                if (i.itemID == 0)
+                    i.currentStack -= StoneRequired;
+
+                if (i.itemID == 2)
+                    i.currentStack -= WoodRequired;
+            }
         }
     }
 }

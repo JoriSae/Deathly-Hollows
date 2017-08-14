@@ -13,8 +13,8 @@ public class EquipableEditor : Editor
         rarity,
         damage,
         atkSpeed,
-        block,
-        blockChance;
+        armor,
+        levelRequired;
 
     private void OnEnable()
     {
@@ -25,8 +25,8 @@ public class EquipableEditor : Editor
         rarity = serializedObject.FindProperty("rarity");
         damage = serializedObject.FindProperty("damage");
         atkSpeed = serializedObject.FindProperty("atkSpeed");
-        block = serializedObject.FindProperty("block");
-        blockChance = serializedObject.FindProperty("blockChance");
+        armor = serializedObject.FindProperty("armor");
+        levelRequired = serializedObject.FindProperty("levelRequired");
     }
 
     public override void OnInspectorGUI()
@@ -43,8 +43,8 @@ public class EquipableEditor : Editor
                 EditorGUILayout.PropertyField(rarity, new GUIContent("rarity"));
                 EditorGUILayout.PropertyField(aKind, new GUIContent("aKind"));
 
-                EditorGUILayout.PropertyField(block, new GUIContent("block"));
-                EditorGUILayout.PropertyField(blockChance, new GUIContent("blockChance"));
+                EditorGUILayout.PropertyField(armor, new GUIContent("armor"));
+                EditorGUILayout.PropertyField(levelRequired, new GUIContent("levelRequired"));
                 break;
 
             case Equipable.EquipmentType.Weapon:
@@ -54,6 +54,7 @@ public class EquipableEditor : Editor
 
                 EditorGUILayout.PropertyField(damage, new GUIContent("damage"));
                 EditorGUILayout.PropertyField(atkSpeed, new GUIContent("atkSpeed"));
+                EditorGUILayout.PropertyField(levelRequired, new GUIContent("levelRequired"));
 
                 break;
                 
