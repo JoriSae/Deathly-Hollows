@@ -51,7 +51,7 @@ public class DropSpawnScript : MonoBehaviour {
                 RNDItemDrop = Random.Range(0, Tier1Items.Length);
 
                 //instantiate the dropped object
-                Instantiate(Tier1Items[RNDItemDrop], SpawnPos.position, SpawnPos.rotation, Parent);
+                Instantiate(Tier1Items[RNDItemDrop], SpawnPos.position, new Quaternion(0,0,0,0), Parent);
             }
                 // tier 2 drop chance
             else if (RNDTier > Tier1DropChance && RNDTier <= Tier1DropChance + Tier2DropChance)
@@ -59,7 +59,7 @@ public class DropSpawnScript : MonoBehaviour {
                 RNDItemDrop = Random.Range(0, Tier2Items.Length);
 
                 //instantiate the dropped object
-                Instantiate(Tier2Items[RNDItemDrop], SpawnPos.position, SpawnPos.rotation, Parent);
+                Instantiate(Tier2Items[RNDItemDrop], SpawnPos.position, new Quaternion(0, 0, 0, 0), Parent);
             }
                 // tier 3 drop chance
             else if (RNDTier > Tier1DropChance + Tier2DropChance && RNDTier <= Tier1DropChance + Tier2DropChance + Tier3DropChance)
@@ -67,7 +67,7 @@ public class DropSpawnScript : MonoBehaviour {
                 RNDItemDrop = Random.Range(0, Tier3Items.Length);
 
                 //instantiate the dropped object
-                Instantiate(Tier3Items[RNDItemDrop], SpawnPos.position, SpawnPos.rotation, Parent);
+                Instantiate(Tier3Items[RNDItemDrop], SpawnPos.position, new Quaternion(0, 0, 0, 0), Parent);
             }
                 // tier 4 drop chance
             else if (RNDTier > Tier1DropChance + Tier2DropChance + Tier3DropChance && RNDTier <= Tier1DropChance + Tier2DropChance + Tier3DropChance + Tier4DropChance)
@@ -75,7 +75,7 @@ public class DropSpawnScript : MonoBehaviour {
                 RNDItemDrop = Random.Range(0, Tier4Items.Length);
 
                 //instantiate the dropped object
-                Instantiate(Tier4Items[RNDItemDrop], SpawnPos.position, SpawnPos.rotation, Parent);
+                Instantiate(Tier4Items[RNDItemDrop], SpawnPos.position, new Quaternion(0, 0, 0, 0), Parent);
             }
                 // tier 5 drop chance
             else if (RNDTier > Tier1DropChance + Tier2DropChance + Tier3DropChance + Tier4DropChance && RNDTier <= Tier1DropChance + Tier2DropChance + Tier3DropChance + Tier4DropChance + Tier5DropChance)
@@ -83,7 +83,7 @@ public class DropSpawnScript : MonoBehaviour {
                 RNDItemDrop = Random.Range(0, Tier5Items.Length);
 
                 //instantiate the dropped object
-                Instantiate(Tier5Items[RNDItemDrop], SpawnPos.position, SpawnPos.rotation, Parent);
+                Instantiate(Tier5Items[RNDItemDrop], SpawnPos.position, new Quaternion(0, 0, 0, 0), Parent);
             }
         }
         

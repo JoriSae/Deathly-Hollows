@@ -28,7 +28,7 @@ public class ResourceScript : MonoBehaviour {
         {
                 for (int i = 0; i < ResourceDrop ; i++)
                 {
-                    Instantiate(ResourceTypeGO, new Vector2(Random.Range(transform.position.x - 1, transform.position.x + 1), Random.Range(transform.position.y - 1, transform.position.y + 1)), transform.rotation);
+                    Instantiate(ResourceTypeGO, new Vector2(Random.Range(transform.position.x - 1, transform.position.x + 1), Random.Range(transform.position.y - 1, transform.position.y + 1)), new Quaternion(0, 0, 0, 0));
                 }
             Destroy(this.gameObject);
         }
