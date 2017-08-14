@@ -10,6 +10,8 @@ public class GUIManager : MonoBehaviour {
     public Slider Healthbar;
     public Text healthoverlaytext;
     public Text levelUpText;
+    public Text StaminaOverlayText;
+    public Slider StaminaBar;
 
     bool paused = false;
     public GameObject pauseMenu;
@@ -48,7 +50,11 @@ public class GUIManager : MonoBehaviour {
 
         Healthbar.value = (Player.instance.Health / Player.instance.MaxHealth) * 100;
 
+        StaminaBar.value = (Player.instance.Stamina / Player.instance.MaxStamina) * 100;
+
         healthoverlaytext.text = Player.instance.Health.ToString("F0") + "/" + Player.instance.MaxHealth.ToString("F0");
+
+        StaminaOverlayText.text = Player.instance.Stamina.ToString("F0") + "/" + Player.instance.MaxStamina.ToString("F0");
     }
 
     public void Pause()

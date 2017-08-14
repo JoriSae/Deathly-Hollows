@@ -10,6 +10,7 @@ public class SoundManageScript : MonoBehaviour {
 
     //array of zombie groaning sounds
     public AudioClip[] ZombieGroanAC;
+    public AudioClip[] BuildingAttackedAC;
     public GameObject hand;
 
     //when app awakes create the instance
@@ -36,6 +37,14 @@ public class SoundManageScript : MonoBehaviour {
     {
         int RND = Random.Range(0, ZombieGroanAC.Length);
         AudioSource.PlayClipAtPoint(ZombieGroanAC[RND], Pos.transform.position, 0.3f);
+
+        hand = GameObject.Find("One shot audio");
+        hand.GetComponent<AudioSource>().spatialBlend = 10;
+    }
+    public void playBuildingAttacked(Transform Pos)
+    {
+        int RND = Random.Range(0, BuildingAttackedAC.Length);
+        AudioSource.PlayClipAtPoint(BuildingAttackedAC[RND], Pos.transform.position, 0.3f);
 
         hand = GameObject.Find("One shot audio");
         hand.GetComponent<AudioSource>().spatialBlend = 10;

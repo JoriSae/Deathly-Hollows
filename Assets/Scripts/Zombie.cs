@@ -16,6 +16,7 @@ public class Zombie : MonoBehaviour {
     private float rndsound;
     public float growlchancepersecond;
     public float growlCD;
+    public float buildingsoundhitfreq;
 
     private void Update()
     {
@@ -77,6 +78,12 @@ public class Zombie : MonoBehaviour {
             if (collision.gameObject.tag == "Building")
             {
                 collision.gameObject.SendMessage("BuildingTakeDamage", 0.2f);
+                int rnd = Random.Range(0, 100);
+                if (rnd < buildingsoundhitfreq)
+                {
+                    SoundManageScript.instance.playBuildingAttacked(this.transform);
+                }
+                
             }
                 
         }

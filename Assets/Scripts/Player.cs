@@ -21,10 +21,15 @@ public class Player : MonoBehaviour
     private float slashtimer;
     public int WeaponSelected;
 
-    //player health variable
+    //player health / Stamina variable
     public float Health;
     public float MaxHealth;
     public float Regeneration;
+
+    public float Stamina;
+    public float MaxStamina;
+    public float StaminaRegeneration;
+    public float StaminaPerSwing;
 
     //exp varialbes
     public int Level;
@@ -101,9 +106,18 @@ public class Player : MonoBehaviour
 
                 if (WeaponSelected == 1)//swing sword / sword selected
                 {
-                    SwordGO.transform.rotation = head.transform.rotation;
-                    SwordGO.transform.Rotate(Vector3.forward * 280);
-                    SwordSwinging = true;
+                    Debug.Log("SwordSwing");
+                    if (Stamina > StaminaPerSwing)
+                    {
+                        SwordGO.transform.rotation = head.transform.rotation;
+                        SwordGO.transform.Rotate(Vector3.forward * 280);
+                        SwordSwinging = true;
+                        Stamina -= StaminaPerSwing;
+                        if (Stamina < 0)
+                        {
+                            Stamina = 0;
+                        }
+                    }
                 }
                 if (WeaponSelected == 0)//shootbow
                 {
@@ -191,6 +205,10 @@ public class Player : MonoBehaviour
         if (Health < MaxHealth)
         {
             Health += Regeneration * Time.deltaTime;
+        }
+        if (Stamina < MaxStamina)
+        {
+            Stamina += StaminaRegeneration * Time.deltaTime;
         }
     }
 

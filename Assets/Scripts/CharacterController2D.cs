@@ -21,7 +21,11 @@ public class CharacterController2D : MonoBehaviour
     [Header("Movement Variables")]
     private Vector2 input;
 
+    public float movespeedbase;
     public float moveSpeed;
+    public float moveSpeed75;
+    public float moveSpeed50;
+    public float moveSpeed25;
 
     private Rigidbody2D rigidBody2D;
     #endregion
@@ -39,12 +43,36 @@ public class CharacterController2D : MonoBehaviour
     private void Update()
     {
         UpdateInput();
+        StaminaEffect();
     }
 
     private void FixedUpdate()
     {
         UpdateRotation();
         UpdateMovement();
+    }
+    public void StaminaEffect()
+    {
+        //if stamina is over 75% speed is 100%
+        if (Player.instance.Stamina > (Player.instance.MaxStamina * 0.75f))
+        {
+            moveSpeed = movespeedbase;
+        }
+        //if stamina is over 50% but less than 75% speed is reduced
+        if (Player.instance.Stamina > (Player.instance.MaxStamina * 0.5f) && Player.instance.Stamina <= (Player.instance.MaxStamina * 0.75f))
+        {
+            moveSpeed = moveSpeed75;
+        }
+        //if stamina is over 25% but less than 50% speed is reduced
+        if (Player.instance.Stamina > (Player.instance.MaxStamina * 0.25f) && Player.instance.Stamina <= (Player.instance.MaxStamina * 0.50f))
+        {
+            moveSpeed = moveSpeed50;
+        }
+        //if stamina is less than 25% speed is reduced
+        if (Player.instance.Stamina <= (Player.instance.MaxStamina * 0.25f))
+        {
+            moveSpeed = moveSpeed25;
+        }
     }
 
     private void UpdateRotation()
