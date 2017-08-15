@@ -10,8 +10,8 @@ public class Equipable : MonoBehaviour {
     public WeaponKind kind;
     public Rarity rarity;
 
-    public float damage;
-    public float atkSpeed;
+    public float damage = 20;
+    public float atkSpeed = 1;
     public float armor = 1;
 
     public int levelRequired = 10;
@@ -20,7 +20,12 @@ public class Equipable : MonoBehaviour {
 
     void Start()
     {
-        damage = Random.Range(1, 10);
+       
+    }
+
+    public void OnCreation()
+    {
+        damage = Random.Range(10, 50);
         atkSpeed = Random.Range(0, 2);
 
         equipment = GetRandomEnum<EquipmentType>();
@@ -29,7 +34,7 @@ public class Equipable : MonoBehaviour {
             weapon = GetRandomEnum<WeaponType>();
             kind = GetRandomEnum<WeaponKind>();
         }
-        
+
         if (equipment == EquipmentType.Armor)
         {
             weapon = GetRandomEnum<WeaponType>();
