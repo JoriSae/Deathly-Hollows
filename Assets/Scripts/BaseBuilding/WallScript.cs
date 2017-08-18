@@ -13,5 +13,6 @@ public class WallScript : buildingInheritance {
 	
 	// Update is called once per frame
 	void Update () {
+        OnFireFunction();
     }
 }

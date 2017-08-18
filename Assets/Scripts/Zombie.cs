@@ -17,6 +17,12 @@ public class Zombie : MonoBehaviour {
     public float growlchancepersecond;
     public float growlCD;
     public float buildingsoundhitfreq;
+    public bool OnFire;
+    public float fireTimer;
+    public float firedamageCD;
+    public float firedamage;
+    public float firespreadchancePerFireDamageCD;
+    public bool SpreadFireBool;
 
     private void Update()
     {
@@ -37,11 +43,16 @@ public class Zombie : MonoBehaviour {
             timerSound = growlCD;
         }
 
+        OnFireFunction();
+
     }
 
     void Damage(float _Damage)
     {   //reduce damage and kill if required
         Health -= _Damage;
+
+        //temp set on fire when take damage ///////////////////////////////////////////////////////
+        OnFire = true;
 
         Vector3 angle = transform.rotation.eulerAngles;
 
@@ -83,9 +94,58 @@ public class Zombie : MonoBehaviour {
                 {
                     SoundManageScript.instance.playBuildingAttacked(this.transform);
                 }
-                
+
+            }
+            if (OnFire && SpreadFireBool)
+            {
+                if (collision.gameObject.tag == "Zombie")
+                {
+                    collision.gameObject.SendMessage("setonfire");
+                    
+                }
+                if (collision.gameObject.tag == "Building")
+                {
+                    collision.gameObject.SendMessage("onfire");
+                }
+
+                SpreadFireBool = false;
+
             }
                 
+        }
+    }
+
+    public void setonfire()
+    {
+        OnFire = true;
+    }
+
+    public void OnFireFunction()
+    {
+        if (OnFire == true)
+        {
+            if (!this.transform.GetChild(0).gameObject.activeInHierarchy)
+            {
+                this.transform.GetChild(0).gameObject.SetActive(true);
+            }
+
+            fireTimer -= Time.deltaTime;
+
+            if (fireTimer < 0)
+            {
+                //do damage to this zombie
+                Damage(firedamage);
+
+                //spread fire
+                float rnd = Random.Range(0, 100);
+                if (rnd < firespreadchancePerFireDamageCD)
+                {
+                    SpreadFireBool = true;
+                }
+
+                //fire cooldown
+                fireTimer = firedamageCD;
+            }
         }
     }
 }

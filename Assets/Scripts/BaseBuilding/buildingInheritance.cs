@@ -10,6 +10,16 @@ public class buildingInheritance : MonoBehaviour {
 
     public Sprite[] Image;
 
+    //fire variables
+    public bool canBeSetOnFire = false;
+    public bool OnFire;
+    public float fireTimer;
+    public float firedamageCD;
+    public float firedamage;
+    public float firespreadchancePerFireDamageCD;
+    public bool SpreadFireBool;
+
+
     // Use this for initialization
     void Start()
     {
@@ -19,7 +29,7 @@ public class buildingInheritance : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-      
+        OnFireFunction();
     }
 
     public void BuildingTakeDamage(float Damage)
@@ -44,13 +54,52 @@ public class buildingInheritance : MonoBehaviour {
             GetComponent<SpriteRenderer>().sprite = Image[3];
         }
     }
-
+    // repair still needs implementing
     public void RepairBuilding(float RepairAmount)
     {
         BuildingHealth += RepairAmount;
         if (BuildingHealth > BuildingMaxHealth)
         {
             BuildingHealth = BuildingMaxHealth;
+        }
+    }
+
+    public void onfire()
+    {
+        OnFire = true;
+    }
+
+    public void OnFireFunction()
+    {
+        
+        
+        {
+            if (OnFire == true)
+            {
+                
+                if (!this.transform.GetChild(0).gameObject.activeInHierarchy)
+                {
+                    this.transform.GetChild(0).gameObject.SetActive(true);
+                }
+
+                fireTimer -= Time.deltaTime;
+
+                if (fireTimer < 0)
+                {
+                    //do damage to this zombie
+                    BuildingTakeDamage(firedamage);
+
+                    //spread fire
+                    float rnd = Random.Range(0, 100);
+                    if (rnd < firespreadchancePerFireDamageCD)
+                    {
+                        SpreadFireBool = true;
+                    }
+
+                    //fire cooldown
+                    fireTimer = firedamageCD;
+                }
+            }
         }
     }
 }
