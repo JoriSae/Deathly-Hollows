@@ -103,6 +103,48 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void RemoveItems(int _itemID, int _amount)
+    {
+        int itemAmount = 0;
+        int requiredResources = _amount;
+
+        foreach (Item item in items)
+        {
+            if (item.itemID == _itemID)
+            {
+                itemAmount += item.currentStack;
+            }
+        }
+
+        if (itemAmount >= _amount)
+        {
+            foreach (Item item in items)
+            {
+                if (item.itemID == _itemID)
+                {
+                    if (item.currentStack >= requiredResources)
+                    {
+                        item.currentStack -= requiredResources;
+                        return;
+                    }
+                    else
+                    {
+                        requiredResources -= item.currentStack;
+
+                        print(requiredResources);
+                        item.currentStack = 0;
+                    }
+                }
+            }
+        }
+        else
+        {
+            print("Not enough items");
+        }
+
+
+    }
+
     public void SetOccupied(int _xSlot, int _ySlot, Item _item, bool _occupied)
     {
         for (int y = _ySlot; y < _ySlot + _item.size.y; ++y)

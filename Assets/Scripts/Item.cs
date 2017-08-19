@@ -56,6 +56,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         UpdateState();
         UpdateText();
+        CheckCurrentStack();
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
@@ -239,6 +240,27 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         else
         {
             numberOfStacksText.text = "";
+        }
+    }
+
+    void CheckCurrentStack()
+    {
+        if (currentStack <= 0)
+        {
+            for (int height = 0; height < inventory.slotRowNumber; height++)
+            {
+                for (int width = 0; width < inventory.slotColumnNumber; width++)
+                {
+                    if (topLeftPivotPoint.position.x + (inventory.cellSize.x / 2) == inventory.slots[width, height].transform.position.x &&
+                        topLeftPivotPoint.position.y - (inventory.cellSize.x / 2) == inventory.slots[width, height].transform.position.y)
+                    {
+                        print(inventory.slots[width, height].transform.position + " " + topLeftPivotPoint.position);
+                        gridPosition = new Vector2(width, height);
+                        inventory.SetOccupied(width, height, this, false);
+                        Destroy(gameObject);
+                    }
+                }
+            }
         }
     }
 
