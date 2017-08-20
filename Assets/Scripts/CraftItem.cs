@@ -9,8 +9,13 @@ public class CraftItem : MonoBehaviour
     public int StoneRequired;
     public int WoodRequired;
 
+    public int StoneID;
+    public int WoodID;
+
     public int stoneAmount;
     public int woodAmount;
+
+    public GameObject removeItems;
 
     public Item itemToAdd;
 
@@ -35,7 +40,7 @@ public class CraftItem : MonoBehaviour
                 woodAmount = i.currentStack;
         }
 
-        if (stoneAmount <= StoneRequired && woodAmount <= WoodRequired)
+        if (stoneAmount < StoneRequired || woodAmount < WoodRequired)
         {
             GetComponentInChildren<Button>().interactable = false;
         }
@@ -56,14 +61,8 @@ public class CraftItem : MonoBehaviour
             stoneAmount -= StoneRequired;
             woodAmount -= WoodRequired;
 
-            foreach (Item i in inventory.items)
-            {
-                if (i.itemID == 0)
-                    i.currentStack -= StoneRequired;
-
-                if (i.itemID == 2)
-                    i.currentStack -= WoodRequired;
-            }
+            removeItems.GetComponent<Inventory>().RemoveItems(StoneID, StoneRequired);
+            removeItems.GetComponent<Inventory>().RemoveItems(WoodID, WoodRequired);
         }
     }
 }

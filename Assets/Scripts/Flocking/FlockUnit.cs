@@ -14,11 +14,26 @@ public class FlockUnit : MonoBehaviour
     Vector2 currentForce;
     bool FoundPlayer = false;
 
+    float timer = 5;
+
+    public GameObject[] buildings;
+    public List<GameObject> WoodenBuilding = new List<GameObject>();
+
     // Use this for initialization
     void Start()
     {
         velocity = new Vector2(Random.Range(0.01f, 0.1f), Random.Range(0.01f, 0.1f));
         location = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
+        buildings = GameObject.FindGameObjectsWithTag("Building");
+
+
+        foreach (GameObject i in buildings)
+        {
+            if (i.GetComponent<SpriteRenderer>().sprite.name == "Wall")
+            {
+                WoodenBuilding.Add(i);
+            }
+        }
     }
 
     Vector2 seek(Vector2 target)
@@ -123,7 +138,7 @@ public class FlockUnit : MonoBehaviour
             if (Leader.GetComponent<AllUnits>().seekGoal)
             {
                 gl = seek(goalPos);
-                //currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
+                currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
             }
             else
                 currentForce = ali + coh;
@@ -142,9 +157,11 @@ public class FlockUnit : MonoBehaviour
 
     void seekLeader()
     {
-        if (Leader.GetComponent<AllUnits>().seekGoal)
+        if (Leader != null)
         {
-            Vector3 dir = seek(goalPos);
+            if (Leader.GetComponent<AllUnits>().seekGoal)
+            {
+                Vector3 dir = seek(goalPos);
                 // Only needed if objects don't share 'z' value.
                 dir.z = 0.0f;
                 if (dir != Vector3.zero)
@@ -152,11 +169,10 @@ public class FlockUnit : MonoBehaviour
                         Quaternion.FromToRotation(Vector3.right, dir),
                         rotationSpeed * Time.deltaTime);
 
-                //Move Towards Target
-                transform.position += (Leader.transform.position - transform.position).normalized
-                    * moveSpeed * Time.deltaTime;
-            //this.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-        }
+                                transform.position += (Leader.transform.position - transform.position).normalized * moveSpeed * Time.deltaTime;
+                //this.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            }
+        }   
     }
 
 
@@ -168,11 +184,52 @@ public class FlockUnit : MonoBehaviour
             if ((this.transform.position.x - FindObjectOfType<Player>().transform.position.x) <= 3 && (this.transform.position.y - FindObjectOfType<Player>().transform.position.y) <= 3)
             {
                 this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
-                FoundPlayer = true;
+                FoundPlayer = true;   
                 Leader = GameObject.FindGameObjectWithTag("Player");
 
                 Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
             }
+        }
+
+        if (Leader == null)
+            Leader = GameObject.FindGameObjectWithTag("Player");
+
+        timer -= Time.deltaTime;
+
+        if (timer <= 0)
+        {
+
+            buildings = GameObject.FindGameObjectsWithTag("Building");
+
+            foreach (GameObject i in buildings)
+            {
+                if (i.GetComponent<SpriteRenderer>().sprite.name == "Wall")
+                {
+                    WoodenBuilding.Clear();
+                    WoodenBuilding.Add(i);
+                }
+            }
+
+            for (int go = 0; go < WoodenBuilding.Count; go++)
+            {
+                if ((Leader.transform.position.x - transform.position.x) <= (WoodenBuilding[go].transform.position.x - transform.position.x)
+                           && (Leader.transform.position.y - transform.position.y) <= (WoodenBuilding[go].transform.position.y - transform.position.y))
+                {
+                    this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
+                    Leader = GameObject.FindGameObjectWithTag("Player");
+                    Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
+                }
+
+                else if ((Leader.transform.position.x - transform.position.x) >= (WoodenBuilding[go].transform.position.x - transform.position.x)
+                   && (Leader.transform.position.y - transform.position.y) >= (WoodenBuilding[go].transform.position.y - transform.position.y))
+                {
+                    this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
+                    Leader = WoodenBuilding[go].gameObject;
+                    Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
+                }
+            }
+
+            timer = 1.5f;
         }
 
         if (this != null)
