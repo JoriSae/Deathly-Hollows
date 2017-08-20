@@ -51,7 +51,6 @@ public class Zombie : MonoBehaviour {
     {   //reduce damage and kill if required
         Health -= _Damage;
 
-        //temp set on fire when take damage ///////////////////////////////////////////////////////
         OnFire = true;
 
         Vector3 angle = transform.rotation.eulerAngles;

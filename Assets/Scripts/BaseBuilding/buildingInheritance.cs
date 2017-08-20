@@ -77,28 +77,30 @@ public class buildingInheritance : MonoBehaviour {
             if (OnFire == true)
             {
                 
-                if (!this.transform.GetChild(0).gameObject.activeInHierarchy)
-                {
-                    this.transform.GetChild(0).gameObject.SetActive(true);
-                }
-
-                fireTimer -= Time.deltaTime;
-
-                if (fireTimer < 0)
-                {
-                    //do damage to this zombie
-                    BuildingTakeDamage(firedamage);
-
-                    //spread fire
-                    float rnd = Random.Range(0, 100);
-                    if (rnd < firespreadchancePerFireDamageCD)
+                
+                    if (!this.transform.GetChild(0).gameObject.activeInHierarchy)
                     {
-                        SpreadFireBool = true;
+                        this.transform.GetChild(0).gameObject.SetActive(true);
                     }
+                    
+                    fireTimer -= Time.deltaTime;
 
-                    //fire cooldown
-                    fireTimer = firedamageCD;
-                }
+                    if (fireTimer < 0)
+                    {
+                        //do damage to this zombie
+                        BuildingTakeDamage(firedamage);
+
+                        //spread fire
+                        float rnd = Random.Range(0, 100);
+                        if (rnd < firespreadchancePerFireDamageCD)
+                        {
+                            SpreadFireBool = true;
+                        }
+
+                        //fire cooldown
+                        fireTimer = firedamageCD;
+                    }
+                
             }
         }
     }

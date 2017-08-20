@@ -12,7 +12,9 @@ public class BaseBuildManager : MonoBehaviour {
     public GameObject StoneWallGO;
     public GameObject WoodFloorGO;
     public GameObject DoorGO;
+    public GameObject TowerGO;
     public GameObject GUIBUILDWINDOW;
+    private Material tempmat;
 
     //construction cost
     private int woodcost;
@@ -46,6 +48,7 @@ public class BaseBuildManager : MonoBehaviour {
                 tempbuildingGO.transform.position = maincam.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, HeightOffset);
                 if(tempbuildingGO.GetComponent<Collider2D>() != null)
                 tempbuildingGO.GetComponent<Collider2D>().isTrigger = true;
+                tempbuildingGO.GetComponent<Renderer>().material.color = Color.green;
             }
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
@@ -61,6 +64,7 @@ public class BaseBuildManager : MonoBehaviour {
             {
                 if (tempbuildingGO.GetComponent<Collider2D>() != null)
                 tempbuildingGO.GetComponent<Collider2D>().isTrigger = false;
+                tempbuildingGO.GetComponent<Renderer>().material.color = Color.white;
                 PlacingBuildingBool = false;
             }
 
@@ -151,6 +155,24 @@ public class BaseBuildManager : MonoBehaviour {
                 // instantiated building follows mouse untill clicked
                 tempbuildingGO = Instantiate(DoorGO, this.transform.position, this.transform.rotation);
                 HeightOffset = 10.3f;
+
+                //else - //FALSE = display message
+                break;
+            case 5:
+                //check if requred resources are met
+                //if (Building1WoodCost <= currentwood && building1StoneCost <= currentstone)
+
+                //close menu
+                GUIBUILDWINDOW.SetActive(false);
+                //remove resources
+                //set construction cost incease of escape
+
+                // placebuilding variable is true
+                PlacingBuildingBool = true;
+
+                // instantiated building follows mouse untill clicked
+                tempbuildingGO = Instantiate(TowerGO, this.transform.position, this.transform.rotation);
+                HeightOffset = 10f;
 
                 //else - //FALSE = display message
                 break;
