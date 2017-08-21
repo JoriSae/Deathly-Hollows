@@ -9,6 +9,7 @@ public class AllUnits : MonoBehaviour {
     public int numUnits = 10;
     public Vector3 range = new Vector3(5, 5, 5);
     public bool isPlayer;
+    public bool allowSpawn;
 
     public bool seekGoal = true;
     public bool flocking = true;
@@ -33,16 +34,19 @@ public class AllUnits : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        numUnits = Random.Range(0, 50);
-        for (int i = 0; i < numUnits; i++)
+        if (allowSpawn == true)
         {
-            units.Add(unitPrefab);
-            Vector3 unitPos = new Vector3(Random.Range(-range.x, range.x),
-                                            Random.Range(-range.y, range.y),
-                                            Random.Range(0, 0));
-            units[i] = Instantiate(unitPrefab, this.transform.position + unitPos, Quaternion.identity);
-            units[i].GetComponent<FlockUnit>().Leader = this.gameObject;
-            //Debug.Log("addedUnit");
+        numUnits = Random.Range(0, 50);
+            for (int i = 0; i < numUnits; i++)
+            {
+                units.Add(unitPrefab);
+                Vector3 unitPos = new Vector3(Random.Range(-range.x, range.x),
+                                                Random.Range(-range.y, range.y),
+                                                Random.Range(0, 0));
+                units[i] = Instantiate(unitPrefab, this.transform.position + unitPos, Quaternion.identity);
+                units[i].GetComponent<FlockUnit>().Leader = this.gameObject;
+                //
+            }
         }
 	}
 

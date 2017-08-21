@@ -35,7 +35,10 @@ public class GUIManager : MonoBehaviour {
         }
 
         if (Player.instance.isDead == true)
+        {
             deathMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
 
         if (Player.instance.leveledUp)
             levelUpText.gameObject.SetActive(true);

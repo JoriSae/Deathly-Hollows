@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private bool SwordSwinging = false;
     public int SlashSpeed;
     private float slashtimer;
-    public int WeaponSelected;
+    public int WeaponSelected = 1;
 
     //player health / Stamina variable
     public float Health;
@@ -77,13 +77,14 @@ public class Player : MonoBehaviour
         regen();
         pickUpItemText.gameObject.SetActive(overItem);
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        ChangeWeapon(1);
+       /* if (Input.GetKeyDown(KeyCode.Q))
         {
             if (WeaponSelected == 0)
                 ChangeWeapon(1);
             else if (WeaponSelected == 1)
                 ChangeWeapon(0);
-        }
+        }*/
     }
 
     void checkhealth()
