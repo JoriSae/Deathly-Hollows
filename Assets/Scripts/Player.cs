@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     {
         AttackTimer = AttackCooldown;
         SwordGO.SetActive(false);
+        ChangeWeapon(1);
     }
 
     // Update is called once per frame
@@ -76,8 +77,6 @@ public class Player : MonoBehaviour
         checkhealth();
         regen();
         pickUpItemText.gameObject.SetActive(overItem);
-
-        ChangeWeapon(1);
        /* if (Input.GetKeyDown(KeyCode.Q))
         {
             if (WeaponSelected == 0)
@@ -182,8 +181,9 @@ public class Player : MonoBehaviour
         //you can place more resources in this function if you need more resources to be able to be picked up
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (collision.CompareTag("Resource1") || collision.CompareTag("Resource2") || collision.CompareTag("Resource3") && !collectedFirstItem)
+            if (collision.CompareTag("Resource1") && !collectedFirstItem || collision.CompareTag("Resource2") && !collectedFirstItem || collision.CompareTag("Resource3") && !collectedFirstItem)
             {
+                collectedFirstItem = true;
                 StartCoroutine(FirstItemPickUp());
             }
 
