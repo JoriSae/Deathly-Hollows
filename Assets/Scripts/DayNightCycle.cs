@@ -20,7 +20,7 @@ public class DayNightCycle : MonoBehaviour
     void Update()
     {
 
-        time = Mathf.PingPong(Time.time, secondsInDay);
+        time = Mathf.PingPong(Time.time + secondsInDay / 2, secondsInDay);
         time = time / secondsInDay;
         if (time > 0.5f)
         {
