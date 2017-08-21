@@ -13,6 +13,8 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public string stringID;
     public int itemID;
 
+    public bool isUseable;
+
     public bool stackable;
     public int currentStack;
     public int maxStack;
@@ -228,6 +230,14 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             }
 
             gameObject.transform.position = oldPosition;
+        }
+
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (isUseable)
+            {
+                currentStack -= 1;
+            }
         }
     }
 

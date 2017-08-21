@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
 
+    private bool collectedFirstItem = false;
+
     //weapon variables
     public GameObject ArrowGO;
     public float AttackCooldown;
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
     private bool overItem = false;
 
     public Text pickUpItemText;
+    public Text firstItemText;
 
     // awake and declare singleton
     private void Awake()
@@ -178,6 +181,11 @@ public class Player : MonoBehaviour
         //you can place more resources in this function if you need more resources to be able to be picked up
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (collision.CompareTag("Resource1") || collision.CompareTag("Resource2") || collision.CompareTag("Resource3") && !collectedFirstItem)
+            {
+                StartCoroutine(FirstItemPickUp());
+            }
+
             if (collision.gameObject.tag == "Resource1")
             {
                 Debug.Log("Collected Resource1");
@@ -234,5 +242,12 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    IEnumerator FirstItemPickUp()
+    {
+        firstItemText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        firstItemText.gameObject.SetActive(false);
+    }
 }
 
