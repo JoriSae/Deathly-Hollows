@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
 
     private bool overItem = false;
 
+    public float DamageMultiplier;
+
     public Text pickUpItemText;
     public Text firstItemText;
 
@@ -229,6 +231,7 @@ public class Player : MonoBehaviour
             leveledUp = true;
             NextLevelExp += ExpExpo * Level;
             Level += 1;
+
         }
 
         if (leveledUp)

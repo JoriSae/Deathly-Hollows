@@ -36,7 +36,6 @@ public class AllUnits : MonoBehaviour {
 	void Start () {
         if (allowSpawn == true)
         {
-        numUnits = Random.Range(0, 50);
             for (int i = 0; i < numUnits; i++)
             {
                 units.Add(unitPrefab);
@@ -45,7 +44,6 @@ public class AllUnits : MonoBehaviour {
                                                 Random.Range(0, 0));
                 units[i] = Instantiate(unitPrefab, this.transform.position + unitPos, Quaternion.identity);
                 units[i].GetComponent<FlockUnit>().Leader = this.gameObject;
-                //
             }
         }
 	}

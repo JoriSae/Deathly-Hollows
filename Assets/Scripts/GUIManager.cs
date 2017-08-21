@@ -16,6 +16,7 @@ public class GUIManager : MonoBehaviour {
     bool paused = false;
     public GameObject pauseMenu;
     public GameObject deathMenu;
+    public GameObject levelMenu;
 
     // Use this for initialization
     void Start () {
@@ -38,6 +39,12 @@ public class GUIManager : MonoBehaviour {
         {
             deathMenu.SetActive(true);
             Time.timeScale = 0;
+        }
+
+        if (Player.instance.leveledUp)
+        {
+            Time.timeScale = 0;
+            levelMenu.SetActive(true);
         }
 
         if (Player.instance.leveledUp)
@@ -75,5 +82,30 @@ public class GUIManager : MonoBehaviour {
             paused = false;
             pauseMenu.SetActive(false);
         }
+    }
+
+    public void LevelUpHealth()
+    {
+        Time.timeScale = 1;
+        Player.instance.MaxHealth += 10;
+        Player.instance.leveledUp = false;
+        levelMenu.SetActive(false);
+    }
+
+    public void LevelUpStamina()
+    {
+        Time.timeScale = 1;
+        Player.instance.MaxStamina += 10;
+        Player.instance.leveledUp = false;
+        levelMenu.SetActive(false);
+    }
+
+    public void LevelUpDamage()
+    {
+        Time.timeScale = 1;
+        Player.instance.DamageMultiplier += 10;
+        Player.instance.leveledUp = false;
+        levelMenu.SetActive(false);
+
     }
 }

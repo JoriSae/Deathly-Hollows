@@ -6,26 +6,20 @@ public class EquipableEditor : Editor
 {
 
     public SerializedProperty
-        equipment,
-        aKind,
         weapon,
         kind,
         rarity,
         damage,
         atkSpeed,
-        armor,
         levelRequired;
 
     private void OnEnable()
     {
-        equipment = serializedObject.FindProperty("equipment");
-        aKind = serializedObject.FindProperty("aKind");
         weapon = serializedObject.FindProperty("weapon");
         kind = serializedObject.FindProperty("kind");
         rarity = serializedObject.FindProperty("rarity");
         damage = serializedObject.FindProperty("damage");
         atkSpeed = serializedObject.FindProperty("atkSpeed");
-        armor = serializedObject.FindProperty("armor");
         levelRequired = serializedObject.FindProperty("levelRequired");
     }
 
@@ -33,23 +27,24 @@ public class EquipableEditor : Editor
     {
         serializedObject.Update();
 
-        EditorGUILayout.PropertyField(equipment);
+        EditorGUILayout.PropertyField(weapon);
 
-        Equipable.EquipmentType et = (Equipable.EquipmentType)equipment.enumValueIndex;
+        Equipable.WeaponType et = (Equipable.WeaponType)weapon.enumValueIndex;
 
         switch (et)
         {
-            case Equipable.EquipmentType.Armor:
+            case Equipable.WeaponType.Melee:
                 EditorGUILayout.PropertyField(rarity, new GUIContent("rarity"));
-                EditorGUILayout.PropertyField(aKind, new GUIContent("aKind"));
+                EditorGUILayout.PropertyField(kind, new GUIContent("kind"));
 
-                EditorGUILayout.PropertyField(armor, new GUIContent("armor"));
+                EditorGUILayout.PropertyField(damage, new GUIContent("damage"));
+                EditorGUILayout.PropertyField(atkSpeed, new GUIContent("atkSpeed"));
                 EditorGUILayout.PropertyField(levelRequired, new GUIContent("levelRequired"));
+
                 break;
 
-            case Equipable.EquipmentType.Weapon:
+            case Equipable.WeaponType.Ranged:
                 EditorGUILayout.PropertyField(rarity, new GUIContent("rarity"));
-                EditorGUILayout.PropertyField(weapon, new GUIContent("weapon"));
                 EditorGUILayout.PropertyField(kind, new GUIContent("kind"));
 
                 EditorGUILayout.PropertyField(damage, new GUIContent("damage"));

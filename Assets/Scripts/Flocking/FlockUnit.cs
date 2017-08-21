@@ -143,7 +143,7 @@ public class FlockUnit : MonoBehaviour
             if (Leader.GetComponent<AllUnits>().seekGoal)
             {
                 gl = seek(goalPos);
-                //currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
+                currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
             }
             else
                 currentForce = ali + coh;
