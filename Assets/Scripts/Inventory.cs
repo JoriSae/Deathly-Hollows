@@ -139,6 +139,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
+            print(requiredResources);
             print("Not enough items");
         }
 

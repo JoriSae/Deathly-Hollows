@@ -61,8 +61,8 @@ public class CraftItem : MonoBehaviour
             stoneAmount -= StoneRequired;
             woodAmount -= WoodRequired;
 
-            removeItems.GetComponent<Inventory>().RemoveItems(StoneID, StoneRequired);
-            removeItems.GetComponent<Inventory>().RemoveItems(WoodID, WoodRequired);
+            inventory.RemoveItems(StoneID, StoneRequired);
+            inventory.RemoveItems(WoodID, WoodRequired);
         }
     }
 }
