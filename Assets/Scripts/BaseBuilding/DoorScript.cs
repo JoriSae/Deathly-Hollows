@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorScript : MonoBehaviour {
+public class DoorScript : buildingInheritance {
 
-    public float BuildingHealth;
-    public float BuildingMaxHealth;
     public float timer;
     public float doorclosetime;
     private bool dooropen = false;
@@ -38,13 +36,5 @@ public class DoorScript : MonoBehaviour {
             timer = 0;
             dooropen = true;
             }
-    }
-    public void BuildingTakeDamage(float Damage)
-    {
-        BuildingHealth -= Damage;
-        if (BuildingHealth <= 0)
-        {
-            Destroy(this.gameObject);
-        }
     }
 }

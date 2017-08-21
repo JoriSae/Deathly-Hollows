@@ -33,7 +33,8 @@ public class AllUnits : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        for(int i = 0; i < numUnits; i++)
+        numUnits = Random.Range(0, 50);
+        for (int i = 0; i < numUnits; i++)
         {
             units.Add(unitPrefab);
             Vector3 unitPos = new Vector3(Random.Range(-range.x, range.x),
@@ -47,6 +48,7 @@ public class AllUnits : MonoBehaviour {
 
     private void Update()
     {
+        numUnits = Random.Range(0, 150);
         if (!isPlayer)
         {
             if (units.Count == 0)

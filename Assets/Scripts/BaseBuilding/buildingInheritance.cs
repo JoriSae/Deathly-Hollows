@@ -18,12 +18,15 @@ public class buildingInheritance : MonoBehaviour {
     public float firedamage;
     public float firespreadchancePerFireDamageCD;
     public bool SpreadFireBool;
+    public bool placed = false;
+    public bool placementcheck;
+    public bool CanBePlaced;
 
 
     // Use this for initialization
     void Start()
     {
-        
+        GetComponent<Renderer>().material.color = Color.green;
     }
 
     // Update is called once per frame
@@ -69,6 +72,41 @@ public class buildingInheritance : MonoBehaviour {
         OnFire = true;
     }
 
+
+    public void OnTriggerStay2D(Collider2D collision)
+    
+        {
+        if (placementcheck)
+        {
+            if (placed == false)
+            {
+                //for this to work it needed a rigid body
+                if (collision.gameObject.CompareTag("Building"))
+                {
+                    GetComponent<Renderer>().material.color = Color.red;
+                    CanBePlaced = false;
+                }
+            }
+        }
+        }
+    public void OnTriggerExit2D(Collider2D collision)
+
+    {
+        if (placementcheck)
+        {
+            //for this to work it needed a rigid body
+            if (placed == false)
+            {
+                if (collision.gameObject.CompareTag("Building"))
+                {
+                    GetComponent<Renderer>().material.color = Color.green;
+                    CanBePlaced = true;
+                }
+            }
+        }
+    }
+
+
     public void OnFireFunction()
     {
         
@@ -76,12 +114,14 @@ public class buildingInheritance : MonoBehaviour {
         {
             if (OnFire == true)
             {
-                
-                
-                    if (!this.transform.GetChild(0).gameObject.activeInHierarchy)
+                if (this.transform.childCount > 0)
+                {
+
+                    if (!this.transform.GetChild(0).gameObject.active)
                     {
                         this.transform.GetChild(0).gameObject.SetActive(true);
                     }
+                }
                     
                     fireTimer -= Time.deltaTime;
 
