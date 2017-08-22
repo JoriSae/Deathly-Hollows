@@ -57,7 +57,7 @@ public class ZombDifficulty : MonoBehaviour {
 
     public void easy()
     {
-        Difficulty = 0;
+        Difficulty = 1;
         maxzomb = 75;
 
         DifficultyMenu.SetActive(false);
@@ -67,7 +67,7 @@ public class ZombDifficulty : MonoBehaviour {
 
     public void Medium()
     {
-        Difficulty = 5;
+        Difficulty = 3;
         maxzomb = 100;
 
         DifficultyMenu.SetActive(false);
@@ -77,7 +77,7 @@ public class ZombDifficulty : MonoBehaviour {
 
     public void Hard()
     {
-        Difficulty = 15;
+        Difficulty = 7;
         maxzomb = 150;
 
         DifficultyMenu.SetActive(false);
@@ -86,8 +86,8 @@ public class ZombDifficulty : MonoBehaviour {
 
     public void Insanity()
     {
-        Difficulty = 30;
-        maxzomb = 300;
+        Difficulty = 10;
+        maxzomb = 150;
 
         DifficultyMenu.SetActive(false);
         

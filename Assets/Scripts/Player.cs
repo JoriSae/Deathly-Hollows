@@ -204,19 +204,19 @@ public class Player : MonoBehaviour
 
             if (collision.gameObject.tag == "Resource1")
             {
-                Debug.Log("Collected Resource1");
+                //Debug.Log("Collected Resource1");
                 inventory.AddItem(collision.GetComponent<AddItem>().itemPrefab);
                 Destroy(collision.gameObject);
             }
-            if (collision.gameObject.tag == "Resource2")
+            else if (collision.gameObject.tag == "Resource2")
             {
-                Debug.Log("Collected Resource2");
+                //Debug.Log("Collected Resource2");
                 inventory.AddItem(collision.GetComponent<AddItem>().itemPrefab);
                 Destroy(collision.gameObject);
             }
-            if (collision.gameObject.tag == "Resource3")
+            else if (collision.gameObject.tag == "Resource3")
             {
-                Debug.Log("Collected Resource3");
+                //Debug.Log("Collected Resource3");
                 inventory.AddItem(collision.GetComponent<AddItem>().itemPrefab);
                 Destroy(collision.gameObject);
             }

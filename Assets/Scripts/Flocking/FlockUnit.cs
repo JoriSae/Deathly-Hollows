@@ -26,7 +26,7 @@ public class FlockUnit : MonoBehaviour
         location = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
         buildings = GameObject.FindGameObjectsWithTag("Building");
 
-
+        /*
         foreach (GameObject i in buildings)
         {
             if (i.GetComponent<SpriteRenderer>().sprite.name == "Wall")
@@ -39,6 +39,7 @@ public class FlockUnit : MonoBehaviour
                 WoodenBuilding.Add(i);
             }
         }
+        */
     }
 
     Vector2 seek(Vector2 target)
@@ -143,7 +144,7 @@ public class FlockUnit : MonoBehaviour
             if (Leader.GetComponent<AllUnits>().seekGoal)
             {
                 gl = seek(goalPos);
-                //currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
+                currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
             }
             else
                 currentForce = ali + coh;
@@ -199,7 +200,7 @@ public class FlockUnit : MonoBehaviour
 
 
         timer -= Time.deltaTime;
-
+        /*
         if (FoundPlayer)
         {
             if (timer <= 0)
@@ -292,13 +293,12 @@ public class FlockUnit : MonoBehaviour
                     }
                 }
             }
-
-            if (this != null)
-            {
-                seekLeader();
-                flock();
-                goalPos = Leader.transform.position;
-            }
+            */
+        if (this != null)
+        {
+            seekLeader();
+            flock();
+            goalPos = Leader.transform.position;
         }
     }
 }
