@@ -10,7 +10,7 @@ public class ArrowDamage : MonoBehaviour {
         public float ArrowSpeed;
         public float Knockback;
         private bool isColliding = false;
-
+        public bool FireArrow = false;
         // Update is called once per frame
         void Update()
         {
@@ -40,7 +40,10 @@ public class ArrowDamage : MonoBehaviour {
         if (other.gameObject.tag == "Zombie")
             {   //run a function the hit object called damage, and give it the arguement Damage
                 other.SendMessageUpwards("Damage", Damage);
-
+            if (FireArrow == true)
+            {
+                other.SendMessage("setonfire");
+            }
             //this does the knockback
             //save others rotation
             Quaternion old = other.transform.rotation;

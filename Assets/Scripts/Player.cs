@@ -50,6 +50,8 @@ public class Player : MonoBehaviour
     public Text pickUpItemText;
     public Text firstItemText;
 
+    private GameObject IArrow;
+
     // awake and declare singleton
     private void Awake()
     {
@@ -109,7 +111,7 @@ public class Player : MonoBehaviour
 
                 if (WeaponSelected == 1)//swing sword / sword selected
                 {
-                    Debug.Log("SwordSwing");
+                    
                     if (Stamina > StaminaPerSwing)
                     {
                         SwordGO.transform.rotation = head.transform.rotation;
@@ -124,7 +126,8 @@ public class Player : MonoBehaviour
                 }
                 if (WeaponSelected == 0)//shootbow
                 {
-                    Instantiate(ArrowGO, transform.position, head.transform.rotation);
+                    IArrow = Instantiate(ArrowGO, transform.position, head.transform.rotation);
+                    IArrow.GetComponent<ArrowDamage>().FireArrow = true;
                 }
 
                 //if attack is initiated then reset the cooldown
