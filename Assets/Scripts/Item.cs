@@ -90,6 +90,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 equipSlot.occupied = false;
                 equipSlot.item = null;
+                player.ChangeWeapon(2);
             }
         }
     }
@@ -115,8 +116,6 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     itemPosition.x -= ((inventory.cellSize.x / 2) * size.x);
                     itemPosition.y -= ((inventory.cellSize.y / 2) * size.y);
 
-                    print((size.y > 1 ? 1 : 0));
-
                     gridPosition = new Vector2(-1, -1);
 
                     gameObject.transform.position = itemPosition;
@@ -131,6 +130,9 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                             break;
                         case "Bow":
                             player.ChangeWeapon(0);
+                            break;
+                        case "Nothing":
+                            player.ChangeWeapon(2);
                             break;
                     }
 

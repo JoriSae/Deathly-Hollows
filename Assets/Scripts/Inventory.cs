@@ -20,6 +20,10 @@ public class Inventory : MonoBehaviour
     public Slot slot;
 
     public Item item;
+    private Item newwItem;
+
+    private Slot equipSlot;
+    private Image equip;
 
     public GameObject itemContainer;
 
@@ -27,7 +31,32 @@ public class Inventory : MonoBehaviour
     {
         InitializeGridLayout();
         SpawnInventorySlots();
-	}
+
+        AddItem(item);
+        equip = GameObject.Find("Equip").GetComponent<Image>();
+        equipSlot = equip.GetComponent<Slot>();
+        
+        equipSlot.occupied = true;
+        
+        Vector2 itemPosition = equip.transform.position;
+        
+        itemPosition.x -= ((cellSize.x / 2) * newwItem.size.x);
+        itemPosition.y -= ((cellSize.y / 2) * newwItem.size.y);
+        
+        newwItem.gridPosition = new Vector2(-1, -1);
+        
+        newwItem.transform.position = itemPosition;
+        
+        equipSlot.item = newwItem;
+
+        for (int i = 0; i < 3; ++i)
+        {
+            slots[i, 0].occupied = false;
+            slots[i, 0].item = null;
+            slots[i, 0].xSectionOfItem = 0;
+            slots[i, 0].ySectionOfItem = 0;
+        }
+    }
 
     void InitializeGridLayout()
     {
@@ -84,6 +113,8 @@ public class Inventory : MonoBehaviour
             itemPosition.y -= (cellSize.y / 2) + (cellSize.y * (_item.size.y - 1));
 
             Item newItem = Instantiate(_item, itemPosition, Quaternion.identity) as Item;
+
+            newwItem = newItem;
 
             newItem.transform.SetParent(itemContainer.transform);
 

@@ -173,6 +173,8 @@ public class Player : MonoBehaviour
             WeaponSelected = 0;
         if (wepsel == 1)
             WeaponSelected = 1;
+        if (wepsel == 2)
+            WeaponSelected = 2;
     }
 
     public void OnTriggerExit2D(Collider2D collision)
