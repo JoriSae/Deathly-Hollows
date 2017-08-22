@@ -11,16 +11,6 @@ public class AllUnits : MonoBehaviour {
     public bool isPlayer;
     public bool allowSpawn;
 
-    public float t1;
-    public float t2;
-    public float t3;
-    public float t4;
-    public float t5;
-    public float t6;
-    public float t7;
-    public float t8;
-    public float t9;
-    public float t10;
 
     public bool seekGoal = true;
     public bool flocking = true;
@@ -45,6 +35,8 @@ public class AllUnits : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+  
+        numUnits = Random.Range(ZombDifficulty.instance.lowerzomb, ZombDifficulty.instance.higherzomb);
         if (allowSpawn == true)
         {
             for (int i = 0; i < numUnits; i++)
@@ -61,7 +53,7 @@ public class AllUnits : MonoBehaviour {
 
     private void Update()
     {
-        numUnits = Random.Range(0, 150);
+        numUnits = Random.Range(ZombDifficulty.instance.lowerzomb, ZombDifficulty.instance.higherzomb);
         if (!isPlayer)
         {
             if (units.Count == 0)
@@ -71,5 +63,6 @@ public class AllUnits : MonoBehaviour {
             }
         }
     }
+
 
 }
