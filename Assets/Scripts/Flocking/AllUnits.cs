@@ -11,10 +11,6 @@ public class AllUnits : MonoBehaviour {
     public bool isPlayer;
     public bool allowSpawn;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
     public bool seekGoal = true;
     public bool flocking = true;
     public bool willful = false;
