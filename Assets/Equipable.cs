@@ -2,45 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equipable : MonoBehaviour {
-
-    public EquipmentType equipment;
-    public ArmorKind aKind;
+public class Equipable : MonoBehaviour
+{
     public WeaponType weapon;
     public WeaponKind kind;
     public Rarity rarity;
 
     public float damage = 20;
+    [Range(0, 2)]
     public float atkSpeed = 1;
-    public float armor = 1;
 
-    public int levelRequired = 10;
+    public int levelRequired = 1;
 
 
 
     void Start()
     {
-       
+
     }
 
-    public void OnCreation()
+    public void OnCreation(WeaponType type)
     {
-        damage = Random.Range(10, 50);
+        damage = Random.Range(1 * Player.instance.Level, 5 * Player.instance.Level);
         atkSpeed = Random.Range(0, 2);
 
-        equipment = GetRandomEnum<EquipmentType>();
-        if (equipment == EquipmentType.Weapon)
+        weapon = type;
+
+        if (type == WeaponType.Ranged)
         {
-            weapon = GetRandomEnum<WeaponType>();
-            kind = GetRandomEnum<WeaponKind>();
+            kind = WeaponKind.Bow;
         }
 
-        if (equipment == EquipmentType.Armor)
+        if (type == WeaponType.Melee)
         {
-            weapon = GetRandomEnum<WeaponType>();
-            aKind = GetRandomEnum<ArmorKind>();
+            kind = WeaponKind.Sword;
         }
+
         rarity = GetRandomEnum<Rarity>();
+
+        levelRequired = Player.instance.Level;
     }
 
     static T GetRandomEnum<T>()
@@ -50,26 +50,16 @@ public class Equipable : MonoBehaviour {
         return V;
     }
 
-    public enum EquipmentType
-    {
-        Weapon,
-        Armor
-    }
-
     public enum WeaponType
     {
         Melee,
-        Ranged,
-        Magic
+        Ranged
     }
 
     public enum WeaponKind
     {
         Sword,
-        Axe,
-        Bow,
-        Wand,
-        Staff
+        Bow
     }
 
     public enum Rarity
@@ -79,14 +69,4 @@ public class Equipable : MonoBehaviour {
         Rare,
         UberRare
     }
-
-    public enum ArmorKind
-    {
-        Chest,
-        Legs,
-        Head,
-        Arms,
-        Boots
-    }
-
 }
