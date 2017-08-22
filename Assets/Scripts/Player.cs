@@ -128,8 +128,16 @@ public class Player : MonoBehaviour
                 }
                 if (WeaponSelected == 0)//shootbow
                 {
-                    IArrow = Instantiate(ArrowGO, transform.position, head.transform.rotation);
-                    IArrow.GetComponent<ArrowDamage>().FireArrow = true;
+                    if (Stamina > StaminaPerSwing)
+                    {
+                        IArrow = Instantiate(ArrowGO, transform.position, head.transform.rotation);
+                        IArrow.GetComponent<ArrowDamage>().FireArrow = true;
+                        Stamina -= StaminaPerSwing / 2;
+                        if (Stamina < 0)
+                        {
+                            Stamina = 0;
+                        }
+                    }
                 }
 
                 //if attack is initiated then reset the cooldown

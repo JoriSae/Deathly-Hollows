@@ -17,8 +17,6 @@ public class SwordDamage : MonoBehaviour {
 	void Update () {
        if (equipSlot.item != null)
             Damage = equipSlot.item.GetComponent<Equipable>().damage + (equipSlot.item.GetComponent<Equipable>().damage * Player.instance.DamageMultiplier / 100);
-
-        print("IMIMIJMD");
 	}
 
 
