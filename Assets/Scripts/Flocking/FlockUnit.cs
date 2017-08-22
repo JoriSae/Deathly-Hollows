@@ -143,7 +143,7 @@ public class FlockUnit : MonoBehaviour
             if (Leader.GetComponent<AllUnits>().seekGoal)
             {
                 gl = seek(goalPos);
-                currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
+                //currentForce = (gl + ali + coh) * moveSpeed * Time.deltaTime;
             }
             else
                 currentForce = ali + coh;
@@ -200,27 +200,61 @@ public class FlockUnit : MonoBehaviour
 
         timer -= Time.deltaTime;
 
-        if (timer <= 0)
+        if (FoundPlayer)
         {
-     
-            buildings = GameObject.FindGameObjectsWithTag("Building");
-            WoodenBuilding.Clear();
-            foreach (GameObject i in buildings)
+            if (timer <= 0)
             {
-                if (i.GetComponent<SpriteRenderer>().sprite.name == "Wall")
+
+                buildings = GameObject.FindGameObjectsWithTag("Building");
+                WoodenBuilding.Clear();
+                foreach (GameObject i in buildings)
                 {
-                    WoodenBuilding.Add(i);
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Wall")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Door1")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Walld1")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Walld2")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Walld3")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Tower1")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Tower2")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Tower3")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
+                    if (i.GetComponent<SpriteRenderer>().sprite.name == "Tower4")
+                    {
+                        WoodenBuilding.Add(i);
+                    }
                 }
 
-                if (i.GetComponent<SpriteRenderer>().sprite.name == "Tower1")
-                {
-                    WoodenBuilding.Add(i);
-                }
-            }
-
-            if (Leader == null)
-                Leader = GameObject.FindGameObjectWithTag("Player");
-
+<<<<<<< HEAD
             for (int go = 0; go < WoodenBuilding.Count; go++)
             {
                 if ((GameObject.FindGameObjectWithTag("Player").transform.position.x - this.transform.position.x) >= (WoodenBuilding[go].transform.position.x - this.transform.position.x)
@@ -232,14 +266,30 @@ public class FlockUnit : MonoBehaviour
                     
                     timer = 1f;
                 }
-
-                else if ((GameObject.FindGameObjectWithTag("Player").transform.position.x - transform.position.x) < (WoodenBuilding[go].transform.position.x - transform.position.x)
-                          && (GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y) < (WoodenBuilding[go].transform.position.y - transform.position.y))
-                {
-                    this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
+=======
+                if (Leader == null)
                     Leader = GameObject.FindGameObjectWithTag("Player");
-                    Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
-                    timer = 1f;
+>>>>>>> 8b945dbb05145f1b8ce455d661b3c740ab45c91c
+
+                for (int go = 0; go < WoodenBuilding.Count; go++)
+                {
+                    if ((GameObject.FindGameObjectWithTag("Player").transform.position.x - this.transform.position.x) >= (WoodenBuilding[go].transform.position.x - this.transform.position.x)
+                       && (GameObject.FindGameObjectWithTag("Player").transform.position.y - this.transform.position.y) >= (WoodenBuilding[go].transform.position.y - this.transform.position.y))
+                    {
+                        this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
+                        Leader = WoodenBuilding[go].gameObject;
+                        Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
+                        timer = 1f;
+                    }
+
+                    else if ((GameObject.FindGameObjectWithTag("Player").transform.position.x - transform.position.x) < (WoodenBuilding[go].transform.position.x - transform.position.x)
+                              && (GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y) < (WoodenBuilding[go].transform.position.y - transform.position.y))
+                    {
+                        this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
+                        Leader = GameObject.FindGameObjectWithTag("Player");
+                        Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
+                        timer = 1f;
+                    }
                 }
             }
         }

@@ -83,10 +83,8 @@ public class BaseBuildManager : MonoBehaviour {
                     if (tempbuildingGO.GetComponent<Collider2D>() != null)
                         tempbuildingGO.GetComponent<Collider2D>().isTrigger = false;
                     tempbuildingGO.GetComponent<buildingInheritance>().placed = true;
-                    
-                    PlacingBuildingBool = false;
-
                     tempbuildingGO.GetComponent<Renderer>().material.color = Color.white;
+                    PlacingBuildingBool = false;
                 }
                 else
                 {

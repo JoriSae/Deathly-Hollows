@@ -55,6 +55,16 @@ public class CraftItem : MonoBehaviour
 
     public void craftItem()
     {
+        if (itemToAdd.tag == "Melee")
+        {
+            itemToAdd.GetComponent<Equipable>().OnCreation(Equipable.WeaponType.Melee);
+        }
+
+        if (itemToAdd.tag == "Ranged")
+        {
+            itemToAdd.GetComponent<Equipable>().OnCreation(Equipable.WeaponType.Ranged);
+        }
+
         if (stoneAmount >= StoneRequired && woodAmount >= WoodRequired)
         {
             inventory.AddItem(itemToAdd);
