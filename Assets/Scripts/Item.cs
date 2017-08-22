@@ -32,7 +32,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private Inventory inventory;
     private Image equip;
-    private Slot equipSlot;
+    public Slot equipSlot;
 
     public Text numberOfStacksText;
 
@@ -89,6 +89,7 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 topLeftPivotPoint.position.y > equip.transform.position.y - (equip.rectTransform.sizeDelta.y / 2))
             {
                 equipSlot.occupied = false;
+                equipSlot.item = null;
             }
         }
     }
@@ -119,6 +120,8 @@ public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     gridPosition = new Vector2(-1, -1);
 
                     gameObject.transform.position = itemPosition;
+
+                    equipSlot.item = this;
 
                     switch (stringID)
                     {

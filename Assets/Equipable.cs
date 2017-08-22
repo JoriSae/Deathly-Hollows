@@ -23,7 +23,7 @@ public class Equipable : MonoBehaviour
 
     public void OnCreation(WeaponType type)
     {
-        damage = Random.Range(1 * Player.instance.Level, 5 * Player.instance.Level);
+        damage = Random.Range(1 + Player.instance.Level, 5 + Player.instance.Level);
         atkSpeed = Random.Range(0, 2);
 
         weapon = type;

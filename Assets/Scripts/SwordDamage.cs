@@ -5,14 +5,20 @@ using UnityEngine;
 public class SwordDamage : MonoBehaviour {
     public float Damage;
     public float Knockback;
+    Inventory inventory;
+    public Slot equipSlot;
+
     // Use this for initialization
     void Start () {
-		
+        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+       if (equipSlot.item != null)
+            Damage = equipSlot.item.GetComponent<Equipable>().damage + (equipSlot.item.GetComponent<Equipable>().damage * Player.instance.DamageMultiplier / 100);
+
+        print("IMIMIJMD");
 	}
 
 
