@@ -11,6 +11,10 @@ public class AllUnits : MonoBehaviour {
     public bool isPlayer;
     public bool allowSpawn;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     public bool seekGoal = true;
     public bool flocking = true;
     public bool willful = false;
@@ -34,6 +38,8 @@ public class AllUnits : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+  
+        numUnits = Random.Range(ZombDifficulty.instance.lowerzomb, ZombDifficulty.instance.higherzomb);
         if (allowSpawn == true)
         {
             for (int i = 0; i < numUnits; i++)
@@ -50,7 +56,7 @@ public class AllUnits : MonoBehaviour {
 
     private void Update()
     {
-        numUnits = Random.Range(0, 150);
+        numUnits = Random.Range(ZombDifficulty.instance.lowerzomb, ZombDifficulty.instance.higherzomb);
         if (!isPlayer)
         {
             if (units.Count == 0)
@@ -60,5 +66,6 @@ public class AllUnits : MonoBehaviour {
             }
         }
     }
+
 
 }
