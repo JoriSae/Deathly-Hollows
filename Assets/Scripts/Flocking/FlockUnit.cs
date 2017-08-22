@@ -229,7 +229,7 @@ public class FlockUnit : MonoBehaviour
                     this.gameObject.GetComponent<FlockUnit>().Leader.GetComponent<AllUnits>().units.Remove(this.gameObject);
                     Leader = WoodenBuilding[go].gameObject;
                     Leader.GetComponent<AllUnits>().units.Add(this.gameObject);
-                    Debug.Log("I have found the Wall");
+                    
                     timer = 1f;
                 }
 

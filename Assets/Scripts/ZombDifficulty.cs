@@ -12,6 +12,11 @@ public class ZombDifficulty : MonoBehaviour {
     public int higherzombInc;
     public float timerdifficulty;
     public float timerdifficultyTimeIncrease;
+    public int Difficulty;
+
+    public GameObject DifficultyMenu;
+
+    public int maxzomb;
 
     public void Awake()
     {
@@ -19,12 +24,14 @@ public class ZombDifficulty : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-		
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
         difficulty();
+
+        
 
     }
 
@@ -34,9 +41,55 @@ public class ZombDifficulty : MonoBehaviour {
 
         if (timerdifficulty < 0)
         {
-            lowerzomb += lowerzombInc;
-            higherzomb += higherzombInc;
+            if(lowerzomb < maxzomb)
+                lowerzomb += lowerzombInc;
+
+            if (higherzomb < maxzomb)
+                higherzomb += higherzombInc;
+
+            if (higherzombInc < maxzomb)
+                higherzombInc += Difficulty;
+
+
             timerdifficulty = timerdifficultyTimeIncrease;
         }
+    }
+
+    public void easy()
+    {
+        Difficulty = 0;
+        maxzomb = 75;
+
+        DifficultyMenu.SetActive(false);
+        
+
+    }
+
+    public void Medium()
+    {
+        Difficulty = 5;
+        maxzomb = 100;
+
+        DifficultyMenu.SetActive(false);
+        
+    }
+    
+
+    public void Hard()
+    {
+        Difficulty = 15;
+        maxzomb = 150;
+
+        DifficultyMenu.SetActive(false);
+        
+    }
+
+    public void Insanity()
+    {
+        Difficulty = 30;
+        maxzomb = 300;
+
+        DifficultyMenu.SetActive(false);
+        
     }
 }
